@@ -9,6 +9,7 @@ namespace CinemaGuideBot
     {
         static void Main(string[] args)
         {
+            Test();
             var bot = CreateBotClient("355988386:AAFqvo7ldCDoFNJpOCZqpI864Cbsb1H7IOI");
             Console.Title = bot.UserName;
             bot.StartWorking();
@@ -31,7 +32,7 @@ namespace CinemaGuideBot
         static void Test()
         {
             var mig = new KinopoiskApi();
-            var movieInfo = mig.GetMovieInfo("Облачный атлас");
+            var movieInfo = mig.GetMovieInfo("Викинг");
             Console.WriteLine(movieInfo);
         }
     }

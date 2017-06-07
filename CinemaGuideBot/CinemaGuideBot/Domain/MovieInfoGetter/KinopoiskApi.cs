@@ -34,9 +34,9 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             return new MovieInfo
             {
                 Title = fullMovieInfo["name_ru"].ToString(),
-                OriginalTitle = fullMovieInfo["name_en"].ToString(),
+                OriginalTitle = fullMovieInfo["name_en"]?.ToString(),
                 Year = int.Parse(fullMovieInfo["year"].ToString()),
-                Country = fullMovieInfo["country"].ToString(),
+                Country = fullMovieInfo["country"]?.ToString(),
                 Director = director.ToString(),
                 Rating = rating
             };

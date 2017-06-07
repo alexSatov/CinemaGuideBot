@@ -26,8 +26,12 @@ namespace CinemaGuideBot.Domain
 
         public override string ToString()
         {
-            var title = Title == OriginalTitle ? $"Название: {Title}" : $"Название: {Title} ({OriginalTitle})";
+            var title = Title == OriginalTitle || OriginalTitle == null 
+                ? $"Название: {Title}" 
+                : $"Название: {Title} ({OriginalTitle})";
+
             var rating = string.Join(", ", Rating.Select(r => $"{r.Key}: {r.Value}"));
+
             return $"{title}\r\n" +
                    $"Год: {Year}\r\n" +
                    $"Режиссер: {Director}\r\n" +
