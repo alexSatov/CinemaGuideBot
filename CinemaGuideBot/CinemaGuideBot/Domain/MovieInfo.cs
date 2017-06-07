@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CinemaGuideBot.Domain
 {
@@ -6,6 +8,8 @@ namespace CinemaGuideBot.Domain
     {
         public string Title { get; set; }
         public string Country { get; set; }
+        public string OriginalTitle { get; set; }
+        public Dictionary<string, int> Rating { get; set; }
 
         private int year;
         public int Year
@@ -19,16 +23,13 @@ namespace CinemaGuideBot.Domain
             }
         }
 
-        private double rating;
-        public double Rating
+        public override string ToString()
         {
-            get { return rating; }
-            set
-            {
-                if (value < 0 || value > 10)
-                    throw new ArgumentException($"Incorrect rating ({value})");
-                rating = value;
-            }
+            var title = Title == OriginalTitle ? $"Название: {Title}" : $"Название: {Title} ({OriginalTitle})";
+            var rating = string.Join(", ", Rating.Select(r => $"{r.Key}: {r.Value}"));
+            return $"{title}\r\n" +
+                   $"Год: {Year}\r\n" +
+                   $"{rating}\r\n";
         }
     }
 }
