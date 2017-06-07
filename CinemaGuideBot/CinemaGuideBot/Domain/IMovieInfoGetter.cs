@@ -2,6 +2,6 @@
 {
     public interface IMovieInfoGetter
     {
-        MovieInfo[] GetMovieInfo(string title);
+        MovieInfo GetMovieInfo(string searchTitle);
     }
 }

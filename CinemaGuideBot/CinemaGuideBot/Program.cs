@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net.Http;
+using CinemaGuideBot.Domain;
 using CinemaGuideBot.BotCommands;
 
 namespace CinemaGuideBot
@@ -17,17 +17,9 @@ namespace CinemaGuideBot
 
         static void Test()
         {
-            var baseAddress = new Uri("https://www.kinopoisk.ru/");
-            var request = "index.php?first=no&what=&kp_query=12 стульев";
-
-            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
-            {
-                using (var response = httpClient.GetAsync(request).Result)
-                {
-                    string responseData = response.Content.ReadAsStringAsync().Result;
-                    Console.WriteLine(responseData);
-                }
-            }
+            var mig = new KinopoiskWebPageMIG();
+            var movieInfo = mig.GetMovieInfo("Чужой");
+            Console.WriteLine(movieInfo);
         }
     }
 }
