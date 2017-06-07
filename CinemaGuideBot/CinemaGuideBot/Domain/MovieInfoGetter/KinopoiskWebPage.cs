@@ -42,10 +42,10 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             if (!WebPageParser.TryParsePage(filmPage, movieInfoExpr, out parseResult))
                 throw new Exception("Ошибка при получении информации о фильме");
           
-            var rating = new Dictionary<string, double>
+            var rating = new Dictionary<string, string>
             {
-                ["Кинопоиск"] = double.Parse(parseResult[5].Replace('.', ',')),
-                ["IMDb"] = double.Parse(parseResult[6].Replace('.', ','))
+                ["Кинопоиск"] = parseResult[5],
+                ["IMDb"] = parseResult[6]
             };
 
             return new MovieInfo

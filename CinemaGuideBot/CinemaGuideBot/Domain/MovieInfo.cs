@@ -10,7 +10,7 @@ namespace CinemaGuideBot.Domain
         public string Country { get; set; }
         public string Director { get; set; }
         public string OriginalTitle { get; set; }
-        public Dictionary<string, double> Rating { get; set; }
+        public Dictionary<string, string> Rating { get; set; }
 
         private int year;
         public int Year

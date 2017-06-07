@@ -25,10 +25,10 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
                 .GetValue("name_person_ru");
 
             var jRating = (JObject) fullMovieInfo["rating"];
-            var rating = new Dictionary<string, double>
+            var rating = new Dictionary<string, string>
             {
-                ["Кинопоиск"] = double.Parse(jRating.GetValue("imdb").ToString().Replace('.', ',')),
-                ["IMDb"] = double.Parse(jRating.GetValue("kp_rating").ToString().Replace('.', ','))
+                ["Кинопоиск"] = jRating.GetValue("imdb").ToString(),
+                ["IMDb"] = jRating.GetValue("kp_rating").ToString()
             };
 
             return new MovieInfo

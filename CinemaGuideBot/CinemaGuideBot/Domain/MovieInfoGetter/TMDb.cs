@@ -9,11 +9,10 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
     public class TMDb : IMovieInfoGetter
     {
         private readonly ServiceClient serviceClient;
-        private readonly string apiToken;
+        private const string apiToken = "14fc21ab59267fc7b0990d27ab14d6fb";
 
-        public TMDb(string apiToken)
+        public TMDb()
         {
-            this.apiToken = apiToken;
             serviceClient = new ServiceClient(apiToken);
         }
 
@@ -27,14 +26,19 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
 
             var movieInfoResult = serviceClient.Movies.GetAsync(mostPopularMovie.Id, "RU", true, CancellationToken.None);
             var movieInfo = movieInfoResult.Result;
-            
-            var rating = new Dictionary<string, double>();
-            rating.Add("Tmdb", movieInfo.VoteCount);
+
+            var rating = new Dictionary<string, string> {{"Tmdb", movieInfo.VoteCount.ToString()}};
+            var director = movieInfo
+                .Credits
+                .Crew
+                .First(x => x.Job.Equals("director", StringComparison.InvariantCultureIgnoreCase))
+                ?.Name;
+
             return new MovieInfo
             {
                 Country = movieInfo.Countries.First()?.Name,
                 Title = movieInfo.Title,
-                Director = movieInfo.Credits.Crew.First(x => x.Job.Equals("director", StringComparison.InvariantCultureIgnoreCase))?.Name,
+                Director = director,
                 Rating = rating,
                 Year = movieInfo.ReleaseDate.GetValueOrDefault().Year,
                 OriginalTitle = movieInfo.OriginalTitle

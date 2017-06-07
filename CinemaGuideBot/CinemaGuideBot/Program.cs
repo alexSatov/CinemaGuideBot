@@ -9,7 +9,6 @@ namespace CinemaGuideBot
     {
         static void Main(string[] args)
         {
-            Test();
             var bot = CreateBotClient("355988386:AAFqvo7ldCDoFNJpOCZqpI864Cbsb1H7IOI");
             Console.Title = bot.UserName;
             bot.StartWorking();
@@ -24,7 +23,7 @@ namespace CinemaGuideBot
             container.Bind<ICommandExecutor>().To<CommandExecutor>();		
             container.Bind<ICommand>().To<HelpCommand>();		
             container.Bind<ICommand>().To<MovieSearchCommand>();		
-            container.Bind<IMovieInfoGetter>().To<TMDb>().WithConstructorArgument("apiToken", "14fc21ab59267fc7b0990d27ab14d6fb");		
+            container.Bind<IMovieInfoGetter>().To<KinopoiskApi>();		
             container.Bind<ICommand>().To<StartCommand>();		
             return container.Get<Bot>();		
         }

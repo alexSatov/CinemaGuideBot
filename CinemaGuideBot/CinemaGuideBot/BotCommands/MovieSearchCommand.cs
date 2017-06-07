@@ -23,6 +23,6 @@ namespace CinemaGuideBot.BotCommands
         }
 
         public string HelpText => "search information about movie";
-        public string Name => "/movieInfo";
+        public string Name => "/info";
     }
 }
