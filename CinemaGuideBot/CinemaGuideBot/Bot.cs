@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using CinemaGuideBot.BotCommands;
 using NLog;
 using Telegram.Bot;
@@ -11,20 +9,18 @@ namespace CinemaGuideBot
 {
     public class Bot : TelegramBotClient
     {
-        private readonly Dictionary<string, ICommand> commands;
-        private readonly Logger logger;  
+        private readonly Logger logger;
+        public readonly ICommandExecutor CommandExecutor;
         public readonly string UserName;
 
-        public Bot(string apiToken, params ICommand[] botCommands) : base(apiToken)
+        public Bot(string apiToken, ICommandExecutor executor) : base(apiToken)
         {
+            CommandExecutor = executor;
             RegisterHandlers();
             var botInfo = GetMeAsync().Result;
             UserName = botInfo.Username;
-            
             logger = LogManager.GetLogger($"Bot {UserName}");
             logger.Debug("bot successfully initialized");
-            commands = botCommands.ToDictionary(command => command.Name, command => command);
-            logger.Debug("added new commands: {0}", string.Join(", ", commands.Keys));
         }
 
         private void RegisterHandlers()
@@ -32,18 +28,6 @@ namespace CinemaGuideBot
             OnCallbackQuery += BotOnCallbackQueryReceived;
             OnMessage += OnMessageReceived;
             OnReceiveError += ErrorHandler;
-        }
-
-        public ICommand[] GetCommands()
-        {
-            return commands.Values.ToArray();
-        }
-
-        public void AddCommand(ICommand newCommand)
-        {
-            if (commands.ContainsKey(newCommand.Name)) return;
-            commands.Add(newCommand.Name, newCommand);
-            logger.Debug("added new command: {0}", newCommand.Name);
         }
 
         public void StartWorking()
@@ -67,17 +51,7 @@ namespace CinemaGuideBot
         {
             var message = messageEventArgs.Message;
             if (message == null || message.Type != MessageType.TextMessage) return;
-            var command = message.Text.Split().First();
-            ICommand commandHandler;
-            if (commands.TryGetValue(command, out commandHandler))
-            {
-                commandHandler.Execute(this, message);
-            }
-            else
-            {
-                SendTextMessageAsync(message.Chat.Id, "I'm sorry but I don't understand your command");
-            }
-
+            CommandExecutor.Execute(this, message);
         }
 
         private async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)

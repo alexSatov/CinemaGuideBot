@@ -2,7 +2,6 @@
 using CinemaGuideBot.Domain;
 using CinemaGuideBot.BotCommands;
 using Ninject;
-using Ninject.Extensions.Conventions;
 
 namespace CinemaGuideBot
 {
@@ -21,6 +20,7 @@ namespace CinemaGuideBot
         {
             var container = new StandardKernel();
             container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("apiToken", apiToken);
+            container.Bind<ICommandExecutor>().To<CommandExecutor>();
             container.Bind<ICommand>().To<HelpCommand>();
             container.Bind<ICommand>().To<StartCommand>();
             return container.Get<Bot>();
