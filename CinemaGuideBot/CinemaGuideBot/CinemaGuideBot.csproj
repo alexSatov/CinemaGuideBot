@@ -75,12 +75,14 @@
     <Compile Include="BotCommands\CommandExecutor.cs" />
     <Compile Include="BotCommands\HelpCommand.cs" />
     <Compile Include="BotCommands\ICommandExecutor.cs" />
+    <Compile Include="BotCommands\SearchMovieCommand.cs" />
     <Compile Include="BotCommands\StartCommand.cs" />
     <Compile Include="BotCommands\UserExtension.cs" />
     <Compile Include="Domain\IMovieInfoGetter.cs" />
     <Compile Include="Domain\KinopoiskWebPageMIG.cs" />
     <Compile Include="Domain\MovieInfo.cs" />
     <Compile Include="BotCommands\ICommand.cs" />
+    <Compile Include="Domain\TMDb.cs" />
     <Compile Include="Infrastructure\WebPageParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

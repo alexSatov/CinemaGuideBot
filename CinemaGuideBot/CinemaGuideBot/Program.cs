@@ -22,6 +22,8 @@ namespace CinemaGuideBot
             container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("apiToken", apiToken);
             container.Bind<ICommandExecutor>().To<CommandExecutor>();
             container.Bind<ICommand>().To<HelpCommand>();
+            container.Bind<ICommand>().To<SearchMovieCommand>();
+            container.Bind<IMovieInfoGetter>().To<TMDb>().WithConstructorArgument("apiToken", "14fc21ab59267fc7b0990d27ab14d6fb");
             container.Bind<ICommand>().To<StartCommand>();
             return container.Get<Bot>();
         }

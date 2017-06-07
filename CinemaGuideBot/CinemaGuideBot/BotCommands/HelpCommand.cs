@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using CinemaGuideBot.Domain;
 using NLog;
 using Telegram.Bot.Types;
 
@@ -8,7 +9,7 @@ namespace CinemaGuideBot.BotCommands
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
        
-        public void Execute(Bot botClient, Message request)
+        public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
         {
             var helpText = GenerateHelp(botClient);
             botClient.SendTextMessageAsync(request.Chat.Id, helpText);

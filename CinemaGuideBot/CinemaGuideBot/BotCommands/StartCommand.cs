@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using CinemaGuideBot.Domain;
+using NLog;
 using Telegram.Bot.Types;
 
 namespace CinemaGuideBot.BotCommands
@@ -6,7 +7,7 @@ namespace CinemaGuideBot.BotCommands
     class StartCommand: ICommand
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        public void Execute(Bot botClient, Message request)
+        public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
         {
 
             var helpText = HelpCommand.GenerateHelp(botClient);

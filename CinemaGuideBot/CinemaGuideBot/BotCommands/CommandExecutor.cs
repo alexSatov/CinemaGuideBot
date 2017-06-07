@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CinemaGuideBot.Domain;
 using NLog;
 using Telegram.Bot.Types;
 
@@ -9,9 +10,11 @@ namespace CinemaGuideBot.BotCommands
     {
         private readonly Logger logger;
         private readonly Dictionary<string, ICommand> commands;
+        private readonly IMovieInfoGetter movieInfoGetter;
 
-        public CommandExecutor(ICommand[] commands)
+        public CommandExecutor(ICommand[] commands, IMovieInfoGetter movieInfoGetter)
         {
+            this.movieInfoGetter = movieInfoGetter;
             logger = LogManager.GetCurrentClassLogger();
             this.commands = commands.ToDictionary(command => command.Name, command => command);
             logger.Debug("added new commands: {0}", string.Join(", ", this.commands.Keys));
@@ -36,7 +39,7 @@ namespace CinemaGuideBot.BotCommands
             var command = message.Text.Split().First();
             if (commands.TryGetValue(command, out commandHandler))
             {
-                commandHandler.Execute(bot, message);
+                commandHandler.Execute(bot, message, movieInfoGetter);
             }
             else
             {
