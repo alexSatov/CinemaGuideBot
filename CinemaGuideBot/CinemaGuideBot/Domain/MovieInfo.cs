@@ -8,8 +8,9 @@ namespace CinemaGuideBot.Domain
     {
         public string Title { get; set; }
         public string Country { get; set; }
+        public string Director { get; set; }
         public string OriginalTitle { get; set; }
-        public Dictionary<string, int> Rating { get; set; }
+        public Dictionary<string, double> Rating { get; set; }
 
         private int year;
         public int Year
@@ -29,6 +30,8 @@ namespace CinemaGuideBot.Domain
             var rating = string.Join(", ", Rating.Select(r => $"{r.Key}: {r.Value}"));
             return $"{title}\r\n" +
                    $"Год: {Year}\r\n" +
+                   $"Режиссер: {Director}\r\n" +
+                   $"Страна: {Country}\r\n" +
                    $"{rating}\r\n";
         }
     }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Net.Http;
+using CinemaGuideBot.Domain;
 using CinemaGuideBot.BotCommands;
 using Ninject;
 using Ninject.Extensions.Conventions;
@@ -20,7 +20,6 @@ namespace CinemaGuideBot
         private static Bot CreateBotClient(string apiToken)
         {
             var container = new StandardKernel();
-            //container.Bind(x => x.FromThisAssembly().SelectAllClasses().BindAllInterfaces());
             container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("apiToken", apiToken);
             container.Bind<ICommand>().To<HelpCommand>();
             container.Bind<ICommand>().To<StartCommand>();
@@ -29,17 +28,9 @@ namespace CinemaGuideBot
 
         static void Test()
         {
-            var baseAddress = new Uri("https://www.kinopoisk.ru/");
-            var request = "index.php?first=no&what=&kp_query=12 стульев";
-
-            using (var httpClient = new HttpClient { BaseAddress = baseAddress })
-            {
-                using (var response = httpClient.GetAsync(request).Result)
-                {
-                    string responseData = response.Content.ReadAsStringAsync().Result;
-                    Console.WriteLine(responseData);
-                }
-            }
+            var mig = new KinopoiskWebPageMIG();
+            var movieInfo = mig.GetMovieInfo("Чужой");
+            Console.WriteLine(movieInfo);
         }
     }
 }
