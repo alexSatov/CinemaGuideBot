@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-using CinemaGuideBot.BotCommands;
-using NLog;
+﻿using NLog;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using System.Diagnostics;
 using Telegram.Bot.Types.Enums;
+using CinemaGuideBot.BotCommands;
 
 namespace CinemaGuideBot
 {

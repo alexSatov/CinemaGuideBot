@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using NLog;
 using System.Linq;
-using CinemaGuideBot.Domain;
-using NLog;
 using Telegram.Bot.Types;
+using System.Collections.Generic;
+using CinemaGuideBot.Domain.MovieInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {

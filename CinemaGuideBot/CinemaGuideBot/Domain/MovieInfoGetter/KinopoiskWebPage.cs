@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
 
-namespace CinemaGuideBot.Domain
+namespace CinemaGuideBot.Domain.MovieInfoGetter
 {
-    public class KinopoiskWebPageMIG : IMovieInfoGetter
+    public class KinopoiskWebPage : IMovieInfoGetter
     {
         public static readonly Uri KinopoiskUri = new Uri("https://www.kinopoisk.ru");
 

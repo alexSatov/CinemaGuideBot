@@ -1,10 +1,10 @@
 ﻿using System;
-using CinemaGuideBot.Domain;
 using Telegram.Bot.Types;
+using CinemaGuideBot.Domain.MovieInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    class SearchMovieCommand : ICommand
+    class MovieSearchCommand : ICommand
     {
         public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
         {
@@ -16,7 +16,7 @@ namespace CinemaGuideBot.BotCommands
                 var result = movieInfoGetter.GetMovieInfo(movieTitle);
                 botClient.SendTextMessageAsync(request.Chat.Id, result.ToString());
             }
-            catch (ArgumentException e)
+            catch (ArgumentException)
             {
                 botClient.SendTextMessageAsync(request.Chat.Id, "Sorry, but i can't find movie by this title :(");
             }

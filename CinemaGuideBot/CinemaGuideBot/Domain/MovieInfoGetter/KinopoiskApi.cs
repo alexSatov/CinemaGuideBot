@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
 
-namespace CinemaGuideBot.Domain
+namespace CinemaGuideBot.Domain.MovieInfoGetter
 {
-    public class KinopoiskApiMIG : IMovieInfoGetter
+    public class KinopoiskApi : IMovieInfoGetter
     {
         public static readonly Uri KinopoiskApiUri = new Uri("https://getmovie.cc");
         private const string token = "037313259a17be837be3bd04a51bf678";
 
         public MovieInfo GetMovieInfo(string searchTitle)
         {
-            var movieId = KinopoiskWebPageMIG.GetMovieId(searchTitle);
+            var movieId = KinopoiskWebPage.GetMovieId(searchTitle);
             var page = WebPageParser.GetPage(KinopoiskApiUri, $"/api/kinopoisk.json?id={movieId}&token={token}");
             page = Regex.Unescape(page);
             var fullMovieInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(page);

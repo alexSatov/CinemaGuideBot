@@ -1,4 +1,4 @@
-﻿namespace CinemaGuideBot.Domain
+﻿namespace CinemaGuideBot.Domain.MovieInfoGetter
 {
     public interface IMovieInfoGetter
     {

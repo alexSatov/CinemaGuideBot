@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.TMDb;
 using System.Threading;
+using System.Collections.Generic;
 
-namespace CinemaGuideBot.Domain
+namespace CinemaGuideBot.Domain.MovieInfoGetter
 {
     public class TMDb : IMovieInfoGetter
     {
