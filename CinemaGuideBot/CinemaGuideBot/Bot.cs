@@ -20,6 +20,7 @@ namespace CinemaGuideBot
             RegisterHandlers();
             var botInfo = GetMeAsync().Result;
             UserName = botInfo.Username;
+            
             logger = LogManager.GetLogger($"Bot {UserName}");
             logger.Debug("bot successfully initialized");
             commands = botCommands.ToDictionary(command => command.Name, command => command);
@@ -62,7 +63,7 @@ namespace CinemaGuideBot
             Debugger.Break();
         }
 
-        private async void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
+        private void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             var message = messageEventArgs.Message;
             if (message == null || message.Type != MessageType.TextMessage) return;
@@ -74,7 +75,7 @@ namespace CinemaGuideBot
             }
             else
             {
-                await SendTextMessageAsync(message.Chat.Id, "I'm sorry but I don't understand your command");
+                SendTextMessageAsync(message.Chat.Id, "I'm sorry but I don't understand your command");
             }
 
         }

@@ -12,10 +12,10 @@ namespace CinemaGuideBot.BotCommands
         {
             var helpText = GenerateHelp(botClient);
             botClient.SendTextMessageAsync(request.Chat.Id, helpText);
-            logger.Debug("for client({0}) of {1} displayed help", request.From, botClient.UserName);
+            logger.Debug("for client({0}) of {1} displayed help", request.From.ToFormattedString(), botClient.UserName);
         }
 
-        private static string GenerateHelp(Bot botClient)
+        public static string GenerateHelp(Bot botClient)
         {
             var botCommands = botClient.GetCommands().Select(command => $"{command.Name} - {command.HelpText}");
             return $"You can control me by sending these commands:\n{string.Join("\n", botCommands)}";

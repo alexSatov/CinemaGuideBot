@@ -35,6 +35,7 @@ namespace CinemaGuideBot.Domain
 
             var filmHref = parseResult[0];
             var filmPage = WebPageParser.GetPage(KinopoiskUri, filmHref);
+            return null;
         }
     }
 }
