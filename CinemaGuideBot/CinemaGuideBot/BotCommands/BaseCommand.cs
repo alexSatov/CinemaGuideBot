@@ -8,11 +8,11 @@ namespace CinemaGuideBot.BotCommands
     {
         public string HelpText { get; }
         public string Name { get; }
-        protected readonly Logger logger;
+        protected readonly Logger Logger;
         
         protected BaseCommand(string name, string helpText, string loggerName)
         {
-            logger = LogManager.GetLogger(loggerName);
+            Logger = LogManager.GetLogger(loggerName);
             HelpText = helpText;
             Name = name;
         }

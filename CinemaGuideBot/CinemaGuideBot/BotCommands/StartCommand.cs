@@ -14,7 +14,7 @@ namespace CinemaGuideBot.BotCommands
             var helpText = HelpCommand.GenerateHelp(botClient);
             var startText = $"Hello, dear user! I am your guide in cinema world.\n{helpText}";
             botClient.SendTextMessageAsync(request.Chat.Id, startText);
-            logger.Debug("for {0} displayed start message", request.From.ToFormattedString());
+            Logger.Debug("for {0} displayed start message", request.From.ToFormattedString());
         }
     }
 }
