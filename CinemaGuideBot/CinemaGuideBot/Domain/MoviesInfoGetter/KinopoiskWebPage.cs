@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
+using CinemaGuideBot.Infrastructure;
 
 namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {
