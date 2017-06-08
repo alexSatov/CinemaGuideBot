@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net.TMDb;
-using System.Threading;
-using NLog.LayoutRenderers;
 using TMDbLib.Client;
 using TMDbLib.Objects.Movies;
 
