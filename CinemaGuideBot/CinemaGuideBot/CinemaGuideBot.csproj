@@ -69,6 +69,9 @@
     <Reference Include="Telegram.Bot, Version=10.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Telegram.Bot.10.4.0\lib\net46\Telegram.Bot.dll</HintPath>
     </Reference>
+    <Reference Include="TMDbLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TMDbLib.1.0.0\lib\net46\TMDbLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot.cs" />
@@ -76,8 +79,11 @@
     <Compile Include="BotCommands\HelpCommand.cs" />
     <Compile Include="BotCommands\ICommandExecutor.cs" />
     <Compile Include="BotCommands\MovieSearchCommand.cs" />
+    <Compile Include="BotCommands\NewWeekCommand.cs" />
     <Compile Include="BotCommands\StartCommand.cs" />
     <Compile Include="BotCommands\UserExtension.cs" />
+    <Compile Include="BotCommands\WeekTopCommand.cs" />
+    <Compile Include="Domain\MoviesInfoGetter\DateTimeExtension.cs" />
     <Compile Include="Domain\MoviesInfoGetter\IMoviesInfoGetter.cs" />
     <Compile Include="Domain\MoviesInfoGetter\KinopoiskWebPage.cs" />
     <Compile Include="Domain\MoviesInfoGetter\KinopoiskApi.cs" />

@@ -1,0 +1,3 @@
+﻿namespace CinemaGuideBot.Domain.MoviesInfoGetter
+{
+}

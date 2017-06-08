@@ -2,7 +2,7 @@
 using System.Linq;
 using Telegram.Bot.Types;
 using System.Collections.Generic;
-using CinemaGuideBot.Domain.MovieInfoGetter;
+using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {

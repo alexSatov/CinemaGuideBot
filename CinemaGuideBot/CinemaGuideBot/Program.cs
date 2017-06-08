@@ -1,7 +1,7 @@
 ﻿using System;
 using Ninject;
 using CinemaGuideBot.BotCommands;
-using CinemaGuideBot.Domain.MovieInfoGetter;
+using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot
 {
@@ -23,7 +23,9 @@ namespace CinemaGuideBot
             container.Bind<ICommandExecutor>().To<CommandExecutor>();		
             container.Bind<ICommand>().To<HelpCommand>();		
             container.Bind<ICommand>().To<MovieSearchCommand>();		
-            container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();		
+            container.Bind<ICommand>().To<WeekTopCommand>();		
+            container.Bind<ICommand>().To<NewWeekCommand>();		
+            container.Bind<IMoviesInfoGetter>().To<TMDb>();		
             container.Bind<ICommand>().To<StartCommand>();		
             return container.Get<Bot>();		
         }

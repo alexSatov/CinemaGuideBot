@@ -1,58 +1,78 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net.TMDb;
 using System.Threading;
+using NLog.LayoutRenderers;
+using TMDbLib.Client;
+using TMDbLib.Objects.Movies;
 
 namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {
     public class TMDb : IMoviesInfoGetter
     {
-        private readonly ServiceClient serviceClient;
+        public readonly TMDbClient Client;
         private const string apiToken = "14fc21ab59267fc7b0990d27ab14d6fb";
 
         public TMDb()
         {
-            serviceClient = new ServiceClient(apiToken);
+            Client = new TMDbClient(apiToken);
         }
 
         public MovieInfo GetMovieInfo(string searchTitle)
         {
-            var result = serviceClient.Movies.SearchAsync(searchTitle, "RU", true, null, true, 1, CancellationToken.None);
+            var result = Client.SearchMovieAsync(searchTitle);
             var mostPopularMovie = result.Result.Results.OrderByDescending(x => x.Popularity).FirstOrDefault();
 
             if (mostPopularMovie == null)
                 throw new ArgumentException("can't find movie by this title");
 
-            var movieInfoResult = serviceClient.Movies.GetAsync(mostPopularMovie.Id, "RU", true, CancellationToken.None);
-            var movieInfo = movieInfoResult.Result;
+            return GetMovieInfo(mostPopularMovie.Id);
+        }
 
-            var rating = new Dictionary<string, string> {{"Tmdb", movieInfo.VoteCount.ToString()}};
+        public MovieInfo GetMovieInfo(int movieId)
+        {
+            var movieInfoResult = Client.GetMovieAsync(movieId, MovieMethods.Credits| MovieMethods.Undefined | MovieMethods.ReleaseDates);
+            var movieInfo = movieInfoResult.Result;
+            var rating = new Dictionary<string, string> { { "Tmdb", movieInfo.VoteAverage.ToString(CultureInfo.InvariantCulture) } };
             var director = movieInfo
-                .Credits
+                .Credits?
                 .Crew
-                .First(x => x.Job.Equals("director", StringComparison.InvariantCultureIgnoreCase))
+                .FirstOrDefault(x => x.Job.Equals("director", StringComparison.InvariantCultureIgnoreCase))
                 ?.Name;
 
             return new MovieInfo
             {
-                Country = movieInfo.Countries.First()?.Name,
+                Country = movieInfo.ProductionCountries.Any()? movieInfo.ProductionCountries.First().Name : null,
                 Title = movieInfo.Title,
                 Director = director,
                 Rating = rating,
-                Year = movieInfo.ReleaseDate.GetValueOrDefault().Year,
+                Year = movieInfo.ReleaseDate?.Year ?? 0,
                 OriginalTitle = movieInfo.OriginalTitle
             };
         }
 
         public List<MovieInfo> GetWeekTopMovies()
         {
-            throw new NotImplementedException();
+            var searchTask = Client.GetMovieNowPlayingListAsync("RU");
+            return searchTask.Result.Results
+                .Select(movie => GetMovieInfo(movie.Id))
+                .OrderByDescending(movie => movie.Rating["Tmdb"])
+                .Take(5)
+                .ToList();
         }
 
         public List<MovieInfo> GetWeekNewMovies()
         {
-            throw new NotImplementedException();
+            var today = DateTime.Today;
+            var startOfCurrentWeek = today.AddDays(-(int)today.DayOfWeek);
+            var searchTask = Client.GetMovieNowPlayingListAsync();
+            return searchTask.Result
+                .Results
+                .Where(movie => movie.ReleaseDate != null && movie.ReleaseDate >= startOfCurrentWeek)
+                .Select(movie => GetMovieInfo(movie.Id))
+                .ToList();
         }
     }
 }

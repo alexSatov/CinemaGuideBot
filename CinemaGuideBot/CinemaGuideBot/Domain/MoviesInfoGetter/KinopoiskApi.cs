@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using CinemaGuideBot.Domain.MovieInfoGetter;
 using CinemaGuideBot.Infrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
