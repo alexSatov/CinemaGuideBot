@@ -15,10 +15,10 @@ namespace CinemaGuideBot
             bot.StartWorking();
         }
 
-        private static Bot CreateBotClient(string apiToken)
+        private static Bot CreateBotClient(string token)
         {
             var container = new StandardKernel();
-            container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("apiToken", apiToken);
+            container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("token", token);
             container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<ICommand>().BindSingleInterface());
             container.Bind<ICommandExecutor>().To<CommandExecutor>();
             container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
