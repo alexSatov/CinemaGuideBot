@@ -6,6 +6,8 @@ namespace CinemaGuideBot.Domain
 {
     public struct MovieInfo
     {
+        public const int DefaultYear = 1800;
+
         public string Title { get; set; }
         public string Country { get; set; }
         public string Director { get; set; }
@@ -26,19 +28,23 @@ namespace CinemaGuideBot.Domain
 
         public override string ToString()
         {
-            var title = Title == OriginalTitle || OriginalTitle == null 
-                ? $"Название: {Title}" 
-                : $"Название: {Title} ({OriginalTitle})";
+            var year = Year == DefaultYear ? null : $"Год: {Year}";
+            var director = string.IsNullOrEmpty(Director) ? null : $"Режиссер: {Director}";
+            var country = string.IsNullOrEmpty(Country) ? null : $"Страна: {Country}";
 
+            var title = string.IsNullOrEmpty(Title) 
+                ? null 
+                : Title == OriginalTitle || OriginalTitle == null 
+                    ? $"Название: {Title}" 
+                    : $"Название: {Title} ({OriginalTitle})";
+            
             var rating = string.Join(", ", Rating
                 .Where(r => !string.IsNullOrEmpty(r.Value))
                 .Select(r => $"{r.Key}: {r.Value}"));
 
-            return $"{title}\r\n" +
-                   $"Год: {Year}\r\n" +
-                   $"Режиссер: {Director}\r\n" +
-                   $"Страна: {Country}\r\n" +
-                   $"{rating}\r\n";
+            return string.Join("\r\n", 
+                new string[] {title, year, director, country, rating}
+                .Where(p => !string.IsNullOrEmpty(p))) + "\r\n";
         }
     }
 }

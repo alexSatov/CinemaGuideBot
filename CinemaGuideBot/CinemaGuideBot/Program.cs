@@ -33,8 +33,11 @@ namespace CinemaGuideBot
         static void Test()
         {
             var mig = new KinopoiskApi();
-            var movieInfo = mig.GetMovieInfo("Викинг");
-            Console.WriteLine(movieInfo);
+            var movieInfo = mig.GetWeekTopMovies();
+            foreach (var info in movieInfo)
+            {
+                Console.WriteLine(info);
+            }
         }
     }
 }

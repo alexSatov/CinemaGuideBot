@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CinemaGuideBot.Infrastructure;
@@ -8,53 +10,80 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
     public class KinopoiskWebPage : IMoviesInfoGetter
     {
         public static readonly Uri KinopoiskUri = new Uri("https://www.kinopoisk.ru");
-
+        
         private const string searchRequestPrefix = "/index.php?first=no&what=&kp_query=";
 
-        private static readonly Regex movieIdExpr = new Regex("<a href=\".+?/film/(.+?)/", RegexOptions.Compiled);
-        private static readonly Regex movieNotFoundExpr = new Regex("К сожалению, по вашему запросу ничего не найдено", RegexOptions.Compiled);
+        private static readonly Regex textValueExpr = new Regex(@">([\d\w\s]+?)<", RegexOptions.Compiled);
+        private static readonly Regex movieIdExpr = new Regex("<a href=\".*?/film/(.+?)/", RegexOptions.Compiled);
 
-        private static readonly Regex movieInfoExpr =
-            new Regex(
-                @"<h1 class=""moviename-big"".+?>(.+?)</h1>.+?<span itemprop=""alternativeHeadline"">(.+?)</span>.+?<td class=""type"">год</td>.+?>(\d+)</a>.+?<td class=""type"">страна</td>.*?<td.*?>(.+?)</td>.+?<td class=""type"">режиссер</td>.*?<td.*?>(.+?)</td>.+?<span class=""rating_ball"">(.+?)</span>.+?IMDb: ([\d.]+)",
-                RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex weekTopMoviesExpr = new Regex(
+            "<dl class=\"block block_cash\" id=\"rigth_box_weekend_rus\".+?</dl>",
+            RegexOptions.Compiled | RegexOptions.Singleline);
 
-        public static int GetMovieId(string title)
+        private static readonly Regex movieNotFoundExpr = new Regex(
+            "К сожалению, по вашему запросу ничего не найдено", 
+            RegexOptions.Compiled);
+
+        private static readonly Regex movieInfoExpr = new Regex(
+            @"<h1 class=""moviename-big"".+?>(.+?)</h1>.+?<span itemprop=""alternativeHeadline"">(.+?)</span>.+?<td class=""type"">год</td>.+?>(\d+)</a>.+?<td class=""type"">страна</td>.*?<td.*?>(.+?)</td>.+?<td class=""type"">режиссер</td>.*?<td.*?>(.+?)</td>.+?<span class=""rating_ball"">(.+?)</span>.+?IMDb: ([\d.]+)",
+            RegexOptions.Compiled | RegexOptions.Singleline);
+
+        public static async Task<string> GetMovieSearchPageAsync(string title)
         {
-            var searchResultPage = WebPageParser.GetPage(KinopoiskUri, searchRequestPrefix + title);
             List<string> parseResult;
+            var searchResultPage = await WebPageParser.GetPageAsync(KinopoiskUri, searchRequestPrefix + title);
 
             if (WebPageParser.TryParsePage(searchResultPage, movieNotFoundExpr, out parseResult))
                 throw new ArgumentException("Фильм не найден");
 
-            if (!WebPageParser.TryParsePage(searchResultPage, movieIdExpr, out parseResult))
-                throw new Exception("Ошибка при получении id фильма");
+            return searchResultPage;
+        }
 
-            return int.Parse(parseResult[0]);
+        public static string GetCashBlock()
+        {
+            List<string> parseResult;
+            var mainPage = WebPageParser.GetPageAsync(KinopoiskUri, "/").Result;
+
+            if (!WebPageParser.TryParsePage(mainPage, weekTopMoviesExpr, out parseResult))
+                throw new ArgumentException("Ошибка при получении статистики");
+
+            return parseResult[0];
+        }
+
+        public static List<int> GetMoviesId(string pageElement)
+        {
+            return WebPageParser
+                .UniteParsedMultibleValues(pageElement, movieIdExpr)
+                .Select(int.Parse)
+                .ToList();
         }
 
         public MovieInfo GetMovieInfo(string searchTitle)
         {
             List<string> parseResult;
-            var filmHref = $"/film/{GetMovieId(searchTitle)}/";
-            var filmPage = WebPageParser.GetPage(KinopoiskUri, filmHref);
+            var movieSearchPage = GetMovieSearchPageAsync(searchTitle).Result;
+            var filmHref = $"/film/{GetMoviesId(movieSearchPage)[0]}/";
+            var filmPage = WebPageParser.GetPageAsync(KinopoiskUri, filmHref).Result;
 
             if (!WebPageParser.TryParsePage(filmPage, movieInfoExpr, out parseResult))
                 throw new Exception("Ошибка при получении информации о фильме");
-          
+
+            var country = string.Join(", ", WebPageParser.UniteParsedMultibleValues(parseResult[4], textValueExpr));
+            var director = string.Join(", ", WebPageParser.UniteParsedMultibleValues(parseResult[5], textValueExpr));
+
             var rating = new Dictionary<string, string>
             {
-                ["Кинопоиск"] = parseResult[5],
-                ["IMDb"] = parseResult[6]
+                ["Кинопоиск"] = parseResult[6],
+                ["IMDb"] = parseResult[7]
             };
 
             return new MovieInfo
             {
-                Title = parseResult[0],
-                OriginalTitle = parseResult[1],
-                Year = int.Parse(parseResult[2]),
-                Country = WebPageParser.UniteParsedMultibleValues(parseResult[3]),
-                Director = WebPageParser.UniteParsedMultibleValues(parseResult[4]),
+                Title = parseResult[1],
+                OriginalTitle = parseResult[2],
+                Year = int.Parse(parseResult[3]),
+                Country = country,
+                Director = director,
                 Rating = rating
             };
         }
