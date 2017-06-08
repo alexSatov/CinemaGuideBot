@@ -14,7 +14,7 @@ namespace CinemaGuideBot.BotCommands
         {
             var helpText = GenerateHelp(botClient);
             botClient.SendTextMessageAsync(request.Chat.Id, helpText);
-            logger.Debug("for {0} displayed help", request.From.ToFormattedString());
+            Logger.Debug("for {0} displayed help", request.From.ToFormattedString());
         }
 
         public static string GenerateHelp(Bot botClient)

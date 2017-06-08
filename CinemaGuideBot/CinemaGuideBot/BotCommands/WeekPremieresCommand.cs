@@ -12,7 +12,7 @@ namespace CinemaGuideBot.BotCommands
         {
             var newMovies = moviesInfoGetter.GetWeekNewMovies();
             botClient.SendTextMessageAsync(request.Chat.Id, string.Join("\r\n", newMovies));
-            logger.Debug("for {0} displayed week top", request.From.ToFormattedString());
+            Logger.Debug("for {0} displayed week top", request.From.ToFormattedString());
         }
     }
 }
