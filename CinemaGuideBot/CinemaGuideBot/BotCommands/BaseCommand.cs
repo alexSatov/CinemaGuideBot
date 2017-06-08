@@ -1,23 +1,23 @@
-﻿using CinemaGuideBot.Domain.MoviesInfoGetter;
-using NLog;
+﻿using NLog;
 using Telegram.Bot.Types;
+using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
     public abstract class BaseCommand : ICommand
     {
-        public string HelpText { get; }
         public string Name { get; }
+        public string HelpText { get; }
+
         protected readonly Logger Logger;
         
-        protected BaseCommand(string name, string helpText, string loggerName)
+        protected BaseCommand(string name, string helpText)
         {
-            Logger = LogManager.GetLogger(loggerName);
-            HelpText = helpText;
             Name = name;
+            HelpText = helpText;
+            Logger = LogManager.GetLogger(GetType().Name);
         }
 
         public abstract void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter);
-       
     }
 }

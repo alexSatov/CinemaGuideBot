@@ -13,45 +13,18 @@ namespace CinemaGuideBot
             var bot = CreateBotClient("355988386:AAFqvo7ldCDoFNJpOCZqpI864Cbsb1H7IOI");
             Console.Title = bot.UserName;
             bot.StartWorking();
-            var lol = Console.ReadLine();
+            var str = Console.ReadLine();
             bot.StopWorking();
         }
 
-        private static Bot CreateBotClient(string apiToken)
+        private static Bot CreateBotClient(string token)
         {
             var container = new StandardKernel();
-            container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("apiToken", apiToken);
+            container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("token", token);
             container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<ICommand>().BindSingleInterface());
             container.Bind<ICommandExecutor>().To<CommandExecutor>();
             container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
             return container.Get<Bot>();
-        }
-
-        static void Test2()
-        {
-            var mig = new TMDb();
-            var moviesInfo = mig.GetWeekNewMovies();
-            foreach (var info in moviesInfo)
-            {
-                Console.WriteLine(info);
-            }
-        }
-
-        static void Test1()
-        {
-            var mig = new TMDb();
-            var moviesInfo = mig.GetWeekTopMovies();
-            foreach (var info in moviesInfo)
-            {
-                Console.WriteLine(info);
-            }
-        }
-
-        static void Test()
-        {
-            var mig = new TMDb();
-            var movieInfo = mig.GetMovieInfo("Wonder Woman");
-            Console.WriteLine(movieInfo);
         }
     }
 }

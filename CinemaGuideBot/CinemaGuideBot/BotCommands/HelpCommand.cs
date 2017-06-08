@@ -6,7 +6,7 @@ namespace CinemaGuideBot.BotCommands
 {
     public class HelpCommand: BaseCommand
     {
-        public HelpCommand() : base("/help", "show this help", "HelpCommand")
+        public HelpCommand() : base("/help", "показывает это сообщение")
         {
         }
 
@@ -19,9 +19,12 @@ namespace CinemaGuideBot.BotCommands
 
         public static string GenerateHelp(Bot botClient)
         {
-            var botCommands = botClient.CommandExecutor.GetAviableCommands()
+            var botCommands = botClient
+                .CommandExecutor
+                .GetAviableCommands()
                 .Select(command => $"{command.Name} - {command.HelpText}");
-            return $"You can control me by sending these commands:\n{string.Join("\n", botCommands)}";
+
+            return $"Я поддерживаю следующие команды:\r\n{string.Join("\r\n", botCommands)}";
         }
     }
 }

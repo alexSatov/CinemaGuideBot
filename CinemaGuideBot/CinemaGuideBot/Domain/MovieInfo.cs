@@ -21,7 +21,7 @@ namespace CinemaGuideBot.Domain
             set
             {
                 if (value < 1 || value > DateTime.Now.Year)
-                    throw new ArgumentException($"Incorrect year ({value})");
+                    throw new ArgumentOutOfRangeException($"Incorrect year ({value})");
                 year = value;
             }
         }

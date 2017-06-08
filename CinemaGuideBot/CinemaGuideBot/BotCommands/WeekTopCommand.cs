@@ -5,7 +5,7 @@ namespace CinemaGuideBot.BotCommands
 {
     public class WeekTopCommand: BaseCommand
     {
-        public WeekTopCommand() : base("/top_week", "show week top 5 movies", "WeekTopCommand")
+        public WeekTopCommand() : base("/weektop", "5 самых популярных фильмов недели")
         {
         }
 
