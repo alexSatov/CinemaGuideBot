@@ -28,8 +28,14 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             "К сожалению, по вашему запросу ничего не найдено", 
             RegexOptions.Compiled);
 
-        private static readonly Regex movieInfoExpr = new Regex(
-            @"<h1 class=""moviename-big"".+?>(.+?)</h1>.+?<span itemprop=""alternativeHeadline"">(.+?)</span>.+?<td class=""type"">год</td>.+?>(\d+)</a>.+?<td class=""type"">страна</td>.*?<td.*?>(.+?)</td>.+?<td class=""type"">режиссер</td>.*?<td.*?>(.+?)</td>.+?<span class=""rating_ball"">(.+?)</span>.+?IMDb: ([\d.]+)",
+        private static readonly Regex movieInfoExpr = new Regex(  // Not use this, podumoy
+            @"<h1 class=""moviename-big"".+?>(.+?)</h1>.+?
+              <span itemprop=""alternativeHeadline"">(.+?)</span>.+?
+              <td class=""type"">год</td>.+?>(\d+)</a>.+?
+              <td class=""type"">страна</td>.*?<td.*?>(.+?)</td>.+?
+              <td class=""type"">режиссер</td>.*?<td.*?>(.+?)</td>.+?
+              <span class=""rating_ball"">(.+?)</span>.+?
+              IMDb: ([\d.]+)",
             RegexOptions.Compiled | RegexOptions.Singleline);
 
         public static async Task<string> GetMovieSearchPageAsync(string title)
@@ -60,7 +66,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             var filmPage = WebPageParser.GetPageAsync(KinopoiskUri, filmHref).Result;
 
             if (!WebPageParser.TryParsePage(filmPage, movieInfoExpr, out parseResult))
-                throw new Exception("Ошибка при получении информации о фильме");
+                throw new Exception("Возникла ошибка при получении информации о фильме");
 
             var country = string.Join(", ", WebPageParser.UniteParsedMultibleValues(parseResult[4], textValueExpr));
             var director = string.Join(", ", WebPageParser.UniteParsedMultibleValues(parseResult[5], textValueExpr));
@@ -102,7 +108,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             throw new NotImplementedException();
         }
 
-        private static string GetPageBlock(string request, Regex pageBlockExpr, string error = "Ошибка при получении статистики")
+        private static string GetPageBlock(string request, Regex pageBlockExpr, string error = "Возникла ошибка при получении статистики")
         {
             List<string> parseResult;
             var page = WebPageParser.GetPageAsync(KinopoiskUri, request).Result;

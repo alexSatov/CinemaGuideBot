@@ -5,7 +5,7 @@ namespace CinemaGuideBot.BotCommands
 {
     public class WeekTopCommand: BaseCommand
     {
-        public WeekTopCommand() : base("/top_week", "show week top 5 movies", "WeekTopCommand")
+        public WeekTopCommand() : base("/weektop", "5 самых популярных фильмов недели")
         {
         }
 
@@ -13,7 +13,7 @@ namespace CinemaGuideBot.BotCommands
         {
             var topMovies = moviesInfoGetter.GetWeekTopMovies();
             botClient.SendTextMessageAsync(request.Chat.Id, string.Join("\r\n", topMovies));
-            logger.Debug("for {0} displayed week top", request.From.ToFormattedString());
+            Logger.Debug("for {0} displayed week top", request.From.ToFormattedString());
         }
     }
 }

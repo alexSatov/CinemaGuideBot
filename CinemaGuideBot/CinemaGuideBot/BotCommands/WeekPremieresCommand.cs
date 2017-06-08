@@ -5,14 +5,15 @@ namespace CinemaGuideBot.BotCommands
 {
     public class WeekPremieresCommand : BaseCommand
     {
-        public WeekPremieresCommand() : base("/new_week", "show new movies of week", "WeekPremieresCommand")
+        public WeekPremieresCommand() : base("/weeknew", "премьеры недели")
         {
         }
+
         public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
         {
             var newMovies = moviesInfoGetter.GetWeekNewMovies();
             botClient.SendTextMessageAsync(request.Chat.Id, string.Join("\r\n", newMovies));
-            logger.Debug("for {0} displayed week top", request.From.ToFormattedString());
+            Logger.Debug($"for {request.From.ToFormattedString()} displayed week top");
         }
     }
 }

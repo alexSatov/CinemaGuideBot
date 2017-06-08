@@ -9,17 +9,18 @@ namespace CinemaGuideBot
 {
     public class Bot : TelegramBotClient
     {
-        private readonly Logger logger;
         public readonly ICommandExecutor CommandExecutor;
         public readonly string UserName;
 
-        public Bot(string apiToken, ICommandExecutor executor) : base(apiToken)
+        private readonly Logger logger;
+
+        public Bot(string token, ICommandExecutor executor) : base(token)
         {
             CommandExecutor = executor;
             RegisterHandlers();
             var botInfo = GetMeAsync().Result;
             UserName = botInfo.Username;
-            logger = LogManager.GetLogger($"Bot {UserName}");
+            logger = LogManager.GetLogger($"{GetType().Name} {UserName}");
             logger.Debug("bot successfully initialized");
         }
 
@@ -49,7 +50,10 @@ namespace CinemaGuideBot
         private void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             var message = messageEventArgs.Message;
-            if (message == null || message.Type != MessageType.TextMessage) return;
+
+            if (message == null || message.Type != MessageType.TextMessage)
+                return;
+
             CommandExecutor.Execute(this, message);
         }
     }
