@@ -30,7 +30,9 @@ namespace CinemaGuideBot.Domain
                 ? $"Название: {Title}" 
                 : $"Название: {Title} ({OriginalTitle})";
 
-            var rating = string.Join(", ", Rating.Select(r => $"{r.Key}: {r.Value}"));
+            var rating = string.Join(", ", Rating
+                .Where(r => !string.IsNullOrEmpty(r.Value))
+                .Select(r => $"{r.Key}: {r.Value}"));
 
             return $"{title}\r\n" +
                    $"Год: {Year}\r\n" +

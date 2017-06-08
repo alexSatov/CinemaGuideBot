@@ -45,12 +45,12 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             };
         }
 
-        public List<MovieInfo> GetTopMoviesOfWeek()
+        public List<MovieInfo> GetWeekTopMovies()
         {
             throw new NotImplementedException();
         }
 
-        public List<MovieInfo> GetNewMoviesOfWeek()
+        public List<MovieInfo> GetWeekNewMovies()
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Collections.Generic;
 using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
@@ -12,11 +12,11 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
         private const string searchRequestPrefix = "/index.php?first=no&what=&kp_query=";
 
         private static readonly Regex movieIdExpr = new Regex("<a href=\".+?/film/(.+?)/", RegexOptions.Compiled);
-        private static readonly Regex movieNotFoundExpr = new Regex("Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ, РїРѕ РІР°С€РµРјСѓ Р·Р°РїСЂРѕСЃСѓ РЅРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ", RegexOptions.Compiled);
+        private static readonly Regex movieNotFoundExpr = new Regex("К сожалению, по вашему запросу ничего не найдено", RegexOptions.Compiled);
 
         private static readonly Regex movieInfoExpr =
             new Regex(
-                @"<h1 class=""moviename-big"".+?>(.+?)</h1>.+?<span itemprop=""alternativeHeadline"">(.+?)</span>.+?<td class=""type"">РіРѕРґ</td>.+?>(\d+)</a>.+?<td class=""type"">СЃС‚СЂР°РЅР°</td>.*?<td.*?>(.+?)</td>.+?<td class=""type"">СЂРµР¶РёСЃСЃРµСЂ</td>.*?<td.*?>(.+?)</td>.+?<span class=""rating_ball"">(.+?)</span>.+?IMDb: ([\d.]+)",
+                @"<h1 class=""moviename-big"".+?>(.+?)</h1>.+?<span itemprop=""alternativeHeadline"">(.+?)</span>.+?<td class=""type"">год</td>.+?>(\d+)</a>.+?<td class=""type"">страна</td>.*?<td.*?>(.+?)</td>.+?<td class=""type"">режиссер</td>.*?<td.*?>(.+?)</td>.+?<span class=""rating_ball"">(.+?)</span>.+?IMDb: ([\d.]+)",
                 RegexOptions.Singleline | RegexOptions.Compiled);
 
         public static int GetMovieId(string title)
@@ -25,10 +25,10 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             List<string> parseResult;
 
             if (WebPageParser.TryParsePage(searchResultPage, movieNotFoundExpr, out parseResult))
-                throw new ArgumentException("Р¤РёР»СЊРј РЅРµ РЅР°Р№РґРµРЅ");
+                throw new ArgumentException("Фильм не найден");
 
             if (!WebPageParser.TryParsePage(searchResultPage, movieIdExpr, out parseResult))
-                throw new Exception("РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё id С„РёР»СЊРјР°");
+                throw new Exception("Ошибка при получении id фильма");
 
             return int.Parse(parseResult[0]);
         }
@@ -40,11 +40,11 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             var filmPage = WebPageParser.GetPage(KinopoiskUri, filmHref);
 
             if (!WebPageParser.TryParsePage(filmPage, movieInfoExpr, out parseResult))
-                throw new Exception("РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё РёРЅС„РѕСЂРјР°С†РёРё Рѕ С„РёР»СЊРјРµ");
+                throw new Exception("Ошибка при получении информации о фильме");
           
             var rating = new Dictionary<string, string>
             {
-                ["РљРёРЅРѕРїРѕРёСЃРє"] = parseResult[5],
+                ["Кинопоиск"] = parseResult[5],
                 ["IMDb"] = parseResult[6]
             };
 
@@ -59,12 +59,12 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             };
         }
 
-        public List<MovieInfo> GetTopMoviesOfWeek()
+        public List<MovieInfo> GetWeekTopMovies()
         {
             throw new NotImplementedException();
         }
 
-        public List<MovieInfo> GetNewMoviesOfWeek()
+        public List<MovieInfo> GetWeekNewMovies()
         {
             throw new NotImplementedException();
         }

@@ -78,12 +78,12 @@
     <Compile Include="BotCommands\MovieSearchCommand.cs" />
     <Compile Include="BotCommands\StartCommand.cs" />
     <Compile Include="BotCommands\UserExtension.cs" />
-    <Compile Include="Domain\MovieInfoGetter\IMoviesInfoGetter.cs" />
-    <Compile Include="Domain\MovieInfoGetter\KinopoiskWebPage.cs" />
-    <Compile Include="Domain\MovieInfoGetter\KinopoiskApi.cs" />
+    <Compile Include="Domain\MoviesInfoGetter\IMoviesInfoGetter.cs" />
+    <Compile Include="Domain\MoviesInfoGetter\KinopoiskWebPage.cs" />
+    <Compile Include="Domain\MoviesInfoGetter\KinopoiskApi.cs" />
     <Compile Include="Domain\MovieInfo.cs" />
     <Compile Include="BotCommands\ICommand.cs" />
-    <Compile Include="Domain\MovieInfoGetter\TMDb.cs" />
+    <Compile Include="Domain\MoviesInfoGetter\TMDb.cs" />
     <Compile Include="Infrastructure\WebPageParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

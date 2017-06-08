@@ -1,4 +1,4 @@
-Ôªøusing System;
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
@@ -27,7 +27,7 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             var jRating = (JObject) fullMovieInfo["rating"];
             var rating = new Dictionary<string, string>
             {
-                ["–ö–∏–Ω–æ–ø–æ–∏—Å–∫"] = jRating.GetValue("imdb").ToString(),
+                [" ËÌÓÔÓËÒÍ"] = jRating.GetValue("imdb").ToString(),
                 ["IMDb"] = jRating.GetValue("kp_rating").ToString()
             };
 
@@ -42,12 +42,12 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             };
         }
 
-        public List<MovieInfo> GetTopMoviesOfWeek()
+        public List<MovieInfo> GetWeekTopMovies()
         {
             throw new NotImplementedException();
         }
 
-        public List<MovieInfo> GetNewMoviesOfWeek()
+        public List<MovieInfo> GetWeekNewMovies()
         {
             throw new NotImplementedException();
         }

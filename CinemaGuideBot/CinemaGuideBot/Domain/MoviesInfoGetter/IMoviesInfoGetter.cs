@@ -5,7 +5,7 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
     public interface IMoviesInfoGetter
     {
         MovieInfo GetMovieInfo(string searchTitle);
-        List<MovieInfo> GetTopMoviesOfWeek();
-        List<MovieInfo> GetNewMoviesOfWeek();
+        List<MovieInfo> GetWeekTopMovies();
+        List<MovieInfo> GetWeekNewMovies();
     }
 }
