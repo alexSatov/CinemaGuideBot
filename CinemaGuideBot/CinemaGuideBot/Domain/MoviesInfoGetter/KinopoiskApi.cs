@@ -37,16 +37,16 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             page = Regex.Unescape(page);
             var fullMovieInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(page);
 
-            var director = ((fullMovieInfo["creators"] as JObject)
+            var director = ((fullMovieInfo["creators"] as JObject)?
                     .GetValue("director")
-                    .First as JObject)
+                    .First as JObject)?
                 .GetValue("name_person_ru");
 
             var jRating = (JObject)fullMovieInfo["rating"];
             var rating = new Dictionary<string, string>
             {
-                ["Кинопоиск"] = jRating.GetValue("imdb").ToString(),
-                ["IMDb"] = jRating.GetValue("kp_rating").ToString()
+                ["Кинопоиск"] = jRating.GetValue("imdb")?.ToString(),
+                ["IMDb"] = jRating.GetValue("kp_rating")?.ToString()
             };
 
             return new MovieInfo
@@ -55,7 +55,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
                 OriginalTitle = fullMovieInfo["name_en"]?.ToString(),
                 Year = fullMovieInfo["year"] == null ? 1800 : int.Parse(fullMovieInfo["year"].ToString()),
                 Country = fullMovieInfo["country"]?.ToString(),
-                Director = director.ToString(),
+                Director = director?.ToString(),
                 Rating = rating
             };
         }
@@ -71,7 +71,11 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
 
         public List<MovieInfo> GetWeekNewMovies()
         {
-            throw new NotImplementedException();
+            var weekPremieresElement = KinopoiskWebPage.GetWeekPremieresBlock();
+            var moviesId = KinopoiskWebPage.GetMoviesId(weekPremieresElement).Take(5);
+            var tasks = moviesId.Select(GetMovieInfoAsync).ToArray();
+            Task.WaitAll(tasks);
+            return tasks.Select(t => t.Result).ToList();
         }
     }
 }

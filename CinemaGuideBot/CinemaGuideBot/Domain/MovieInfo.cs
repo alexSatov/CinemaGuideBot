@@ -28,13 +28,14 @@ namespace CinemaGuideBot.Domain
 
         public override string ToString()
         {
+            if (string.IsNullOrEmpty(Title))
+                return "";
+
             var year = Year == DefaultYear ? null : $"Год: {Year}";
             var director = string.IsNullOrEmpty(Director) ? null : $"Режиссер: {Director}";
             var country = string.IsNullOrEmpty(Country) ? null : $"Страна: {Country}";
 
-            var title = string.IsNullOrEmpty(Title) 
-                ? null 
-                : Title == OriginalTitle || OriginalTitle == null 
+            var title = Title == OriginalTitle || OriginalTitle == null 
                     ? $"Название: {Title}" 
                     : $"Название: {Title} ({OriginalTitle})";
             

@@ -25,9 +25,19 @@ namespace CinemaGuideBot
             container.Bind<ICommand>().To<MovieSearchCommand>();		
             container.Bind<ICommand>().To<WeekTopCommand>();		
             container.Bind<ICommand>().To<NewWeekCommand>();		
-            container.Bind<IMoviesInfoGetter>().To<TMDb>();		
+            container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();		
             container.Bind<ICommand>().To<StartCommand>();		
             return container.Get<Bot>();		
+        }
+
+        static void Test2()
+        {
+            var mig = new KinopoiskApi();
+            var moviesInfo = mig.GetWeekNewMovies();
+            foreach (var info in moviesInfo)
+            {
+                Console.WriteLine(info);
+            }
         }
 
         static void Test1()

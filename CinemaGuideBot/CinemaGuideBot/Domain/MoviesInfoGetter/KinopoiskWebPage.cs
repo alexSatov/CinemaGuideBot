@@ -20,6 +20,10 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             "<dl class=\"block block_cash\" id=\"rigth_box_weekend_rus\".+?</dl>",
             RegexOptions.Compiled | RegexOptions.Singleline);
 
+        private static readonly Regex weekPremieresExpr = new Regex(
+            "<div class=\"prem_list\">.+?<div class=\"prem_list\">",
+            RegexOptions.Compiled | RegexOptions.Singleline);
+
         private static readonly Regex movieNotFoundExpr = new Regex(
             "К сожалению, по вашему запросу ничего не найдено", 
             RegexOptions.Compiled);
@@ -39,22 +43,12 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             return searchResultPage;
         }
 
-        public static string GetCashBlock()
-        {
-            List<string> parseResult;
-            var mainPage = WebPageParser.GetPageAsync(KinopoiskUri, "/").Result;
-
-            if (!WebPageParser.TryParsePage(mainPage, weekTopMoviesExpr, out parseResult))
-                throw new ArgumentException("Ошибка при получении статистики");
-
-            return parseResult[0];
-        }
-
         public static List<int> GetMoviesId(string pageElement)
         {
             return WebPageParser
                 .UniteParsedMultibleValues(pageElement, movieIdExpr)
                 .Select(int.Parse)
+                .Distinct()
                 .ToList();
         }
 
@@ -88,6 +82,16 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             };
         }
 
+        public static string GetCashBlock()
+        {
+            return GetPageBlock("/", weekTopMoviesExpr);
+        }
+
+        public static string GetWeekPremieresBlock()
+        {
+            return GetPageBlock("/premiere/ru/", weekPremieresExpr);
+        }
+
         public List<MovieInfo> GetWeekTopMovies()
         {
             throw new NotImplementedException();
@@ -96,6 +100,17 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
         public List<MovieInfo> GetWeekNewMovies()
         {
             throw new NotImplementedException();
+        }
+
+        private static string GetPageBlock(string request, Regex pageBlockExpr, string error = "Ошибка при получении статистики")
+        {
+            List<string> parseResult;
+            var page = WebPageParser.GetPageAsync(KinopoiskUri, request).Result;
+
+            if (!WebPageParser.TryParsePage(page, pageBlockExpr, out parseResult))
+                throw new ArgumentException(error);
+
+            return parseResult[0];
         }
     }
 }
