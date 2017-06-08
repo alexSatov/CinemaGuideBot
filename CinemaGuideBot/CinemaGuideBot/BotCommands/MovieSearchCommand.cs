@@ -36,7 +36,6 @@ namespace CinemaGuideBot.BotCommands
             {
                 botClient.SendTextMessageAsync(request.Chat.Id, $"Вы пытались найти \"{searchTitle}\"\r\n{e.Message}");
                 Logger.Debug($"for {sender} not found <{searchTitle}>");
-                Logger.Debug($"----------EXCEPTION----------\r\n{e}\r\n----------EXCEPTION----------");
             }
         }
     }

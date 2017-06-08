@@ -1,5 +1,5 @@
-﻿using System;
-using NLog;
+﻿using NLog;
+using System;
 using System.Linq;
 using Telegram.Bot.Types;
 using System.Collections.Generic;
