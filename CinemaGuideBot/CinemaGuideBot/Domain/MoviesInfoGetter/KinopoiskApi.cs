@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using CinemaGuideBot.Domain.MovieInfoGetter;
+using CinemaGuideBot.Infrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using CinemaGuideBot.Infrastructure;
-using System.Text.RegularExpressions;
 
-namespace CinemaGuideBot.Domain.MovieInfoGetter
+namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {
     public class KinopoiskApi : IMoviesInfoGetter
     {

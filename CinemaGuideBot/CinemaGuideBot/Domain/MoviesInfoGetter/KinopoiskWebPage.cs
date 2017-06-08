@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
+using CinemaGuideBot.Infrastructure;
 
-namespace CinemaGuideBot.Domain.MovieInfoGetter
+namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {
     public class KinopoiskWebPage : IMoviesInfoGetter
     {
