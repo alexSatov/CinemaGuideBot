@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using TMDbLib.Client;
+using System.Globalization;
 using TMDbLib.Objects.Movies;
+using System.Collections.Generic;
 
 namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {

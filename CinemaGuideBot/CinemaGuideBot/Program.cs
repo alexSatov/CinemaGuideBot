@@ -30,14 +30,21 @@ namespace CinemaGuideBot
             return container.Get<Bot>();		
         }
 
-        static void Test()
+        static void Test1()
         {
             var mig = new KinopoiskApi();
-            var movieInfo = mig.GetWeekTopMovies();
-            foreach (var info in movieInfo)
+            var moviesInfo = mig.GetWeekTopMovies();
+            foreach (var info in moviesInfo)
             {
                 Console.WriteLine(info);
             }
+        }
+
+        static void Test()
+        {
+            var mig = new KinopoiskApi();
+            var movieInfo = mig.GetMovieInfo("Wonder Woman");
+            Console.WriteLine(movieInfo);
         }
     }
 }

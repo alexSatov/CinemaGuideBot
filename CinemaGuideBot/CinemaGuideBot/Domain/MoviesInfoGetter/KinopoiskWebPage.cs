@@ -2,8 +2,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using CinemaGuideBot.Infrastructure;
+using System.Text.RegularExpressions;
 
 namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {
@@ -14,7 +14,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
         private const string searchRequestPrefix = "/index.php?first=no&what=&kp_query=";
 
         private static readonly Regex textValueExpr = new Regex(@">([\d\w\s]+?)<", RegexOptions.Compiled);
-        private static readonly Regex movieIdExpr = new Regex("<a href=\".*?/film/(.+?)/", RegexOptions.Compiled);
+        private static readonly Regex movieIdExpr = new Regex(@"<a href="".*?/film/(\d+?)/", RegexOptions.Compiled);
 
         private static readonly Regex weekTopMoviesExpr = new Regex(
             "<dl class=\"block block_cash\" id=\"rigth_box_weekend_rus\".+?</dl>",

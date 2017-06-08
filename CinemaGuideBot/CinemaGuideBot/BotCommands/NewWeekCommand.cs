@@ -1,6 +1,6 @@
-﻿using CinemaGuideBot.Domain.MoviesInfoGetter;
-using NLog;
+﻿using NLog;
 using Telegram.Bot.Types;
+using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {

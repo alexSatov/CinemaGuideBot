@@ -83,7 +83,6 @@
     <Compile Include="BotCommands\StartCommand.cs" />
     <Compile Include="BotCommands\UserExtension.cs" />
     <Compile Include="BotCommands\WeekTopCommand.cs" />
-    <Compile Include="Domain\MoviesInfoGetter\DateTimeExtension.cs" />
     <Compile Include="Domain\MoviesInfoGetter\IMoviesInfoGetter.cs" />
     <Compile Include="Domain\MoviesInfoGetter\KinopoiskWebPage.cs" />
     <Compile Include="Domain\MoviesInfoGetter\KinopoiskApi.cs" />
