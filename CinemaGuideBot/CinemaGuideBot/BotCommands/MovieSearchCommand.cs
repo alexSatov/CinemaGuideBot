@@ -24,8 +24,12 @@ namespace CinemaGuideBot.BotCommands
             var sender = request.From.ToFormattedString();
             try
             {
-                var result = moviesInfoGetter.GetMovieInfo(searchTitle);
-                botClient.SendTextMessageAsync(request.Chat.Id, result.ToString());
+                var result = moviesInfoGetter.GetMovieInfo(searchTitle).ToString();
+
+                if (string.IsNullOrEmpty(result))
+                    throw new ArgumentException("Фильм не найден");
+
+                botClient.SendTextMessageAsync(request.Chat.Id, result);
                 Logger.Debug($"for {sender} successfully found <{searchTitle}>");
             }
             catch (ArgumentException e)

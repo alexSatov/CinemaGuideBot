@@ -14,6 +14,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
         public static readonly Uri KinopoiskApiUri = new Uri("https://getmovie.cc");
 
         private const string token = "037313259a17be837be3bd04a51bf678";
+        private const int millisecondsDelay = 2000;
 
         public MovieInfo GetMovieInfo(string searchTitle)
         {
@@ -34,8 +35,14 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
 
         private static async Task<MovieInfo> GetMovieInfoAsync(int movieId)
         {
-            var page = await WebPageParser.GetPageAsync(KinopoiskApiUri, $"/api/kinopoisk.json?id={movieId}&token={token}");
-            page = Regex.Unescape(page);
+            var pageTask = await Task.WhenAny(
+                WebPageParser.GetPageAsync(KinopoiskApiUri, $"/api/kinopoisk.json?id={movieId}&token={token}"), 
+                Task.Delay(millisecondsDelay));
+
+            if (pageTask as Task<string> == null)
+                return new MovieInfo();
+
+            var page = Regex.Unescape((pageTask as Task<string>).Result);
             var fullMovieInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(page);
 
             var director = ((fullMovieInfo["creators"] as JObject)?
@@ -73,7 +80,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
         public List<MovieInfo> GetWeekNewMovies()
         {
             var weekPremieresElement = KinopoiskWebPage.GetWeekPremieresBlock();
-            var moviesId = KinopoiskWebPage.GetMoviesId(weekPremieresElement).Take(5);
+            var moviesId = KinopoiskWebPage.GetMoviesId(weekPremieresElement);
             var tasks = moviesId.Select(GetMovieInfoAsync).ToArray();
             Task.WaitAll(tasks);
             return tasks.Select(t => t.Result).ToList();

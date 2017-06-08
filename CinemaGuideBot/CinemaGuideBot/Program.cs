@@ -13,6 +13,8 @@ namespace CinemaGuideBot
             var bot = CreateBotClient("355988386:AAFqvo7ldCDoFNJpOCZqpI864Cbsb1H7IOI");
             Console.Title = bot.UserName;
             bot.StartWorking();
+            var str = Console.ReadLine();
+            bot.StopWorking();
         }
 
         private static Bot CreateBotClient(string token)
