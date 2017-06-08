@@ -1,7 +1,7 @@
 ﻿using System;
 using Ninject;
 using CinemaGuideBot.BotCommands;
-using CinemaGuideBot.Domain.MovieInfoGetter;
+using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot
 {
@@ -31,8 +31,11 @@ namespace CinemaGuideBot
         static void Test()
         {
             var mig = new KinopoiskApi();
-            var movieInfo = mig.GetMovieInfo("Викинг");
-            Console.WriteLine(movieInfo);
+            var movieInfo = mig.GetWeekTopMovies();
+            foreach (var info in movieInfo)
+            {
+                Console.WriteLine(info);
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Net.TMDb;
 using System.Threading;
 using System.Collections.Generic;
 
-namespace CinemaGuideBot.Domain.MovieInfoGetter
+namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {
     public class TMDb : IMoviesInfoGetter
     {
