@@ -12,6 +12,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
     public class KinopoiskApi : IMoviesInfoGetter
     {
         public static readonly Uri KinopoiskApiUri = new Uri("https://getmovie.cc");
+
         private const string token = "037313259a17be837be3bd04a51bf678";
 
         public MovieInfo GetMovieInfo(string searchTitle)

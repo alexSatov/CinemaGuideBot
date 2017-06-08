@@ -29,7 +29,7 @@ namespace CinemaGuideBot
 
         static void Test2()
         {
-            var mig = new KinopoiskApi();
+            var mig = new TMDb();
             var moviesInfo = mig.GetWeekNewMovies();
             foreach (var info in moviesInfo)
             {
@@ -39,7 +39,7 @@ namespace CinemaGuideBot
 
         static void Test1()
         {
-            var mig = new KinopoiskApi();
+            var mig = new TMDb();
             var moviesInfo = mig.GetWeekTopMovies();
             foreach (var info in moviesInfo)
             {
@@ -49,7 +49,7 @@ namespace CinemaGuideBot
 
         static void Test()
         {
-            var mig = new KinopoiskApi();
+            var mig = new TMDb();
             var movieInfo = mig.GetMovieInfo("Wonder Woman");
             Console.WriteLine(movieInfo);
         }

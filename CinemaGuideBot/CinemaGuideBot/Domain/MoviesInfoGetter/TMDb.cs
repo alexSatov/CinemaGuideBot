@@ -3,6 +3,7 @@ using System.Linq;
 using TMDbLib.Client;
 using System.Globalization;
 using TMDbLib.Objects.Movies;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace CinemaGuideBot.Domain.MoviesInfoGetter
@@ -10,53 +11,68 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
     public class TMDb : IMoviesInfoGetter
     {
         public readonly TMDbClient Client;
-        private const string apiToken = "14fc21ab59267fc7b0990d27ab14d6fb";
+
+        private const string token = "14fc21ab59267fc7b0990d27ab14d6fb";
 
         public TMDb()
         {
-            Client = new TMDbClient(apiToken);
-            Client.DefaultLanguage = "RU";
+            Client = new TMDbClient(token) { DefaultLanguage = "RU" };
         }
 
         public MovieInfo GetMovieInfo(string searchTitle)
         {
-            var result = Client.SearchMovieAsync(searchTitle);
-            var mostPopularMovie = result.Result.Results.OrderByDescending(x => x.Popularity).FirstOrDefault();
-
-            if (mostPopularMovie == null)
-                throw new ArgumentException("can't find movie by this title");
-
-            return GetMovieInfo(mostPopularMovie.Id);
+            return GetMovieInfoAsync(searchTitle).Result;
         }
 
         public MovieInfo GetMovieInfo(int movieId)
         {
-            var movieInfoResult = Client.GetMovieAsync(movieId, MovieMethods.Credits| MovieMethods.Undefined | MovieMethods.ReleaseDates);
-            var movieInfo = movieInfoResult.Result;
+            return GetMovieInfoAsync(movieId).Result;
+        }
+
+        private async Task<MovieInfo> GetMovieInfoAsync(string searchTitle)
+        {
+            var movieSearchResult = await Client.SearchMovieAsync(searchTitle);
+
+            var mostPopularMovie = movieSearchResult
+                .Results
+                .OrderByDescending(x => x.Popularity)
+                .FirstOrDefault();
+
+            if (mostPopularMovie == null)
+                throw new ArgumentException("Фильм не найден");
+
+            return GetMovieInfo(mostPopularMovie.Id);
+        }
+
+        private async Task<MovieInfo> GetMovieInfoAsync(int movieId)
+        {
+            var movieInfo = await Client.GetMovieAsync(movieId, MovieMethods.Credits | MovieMethods.Undefined | MovieMethods.ReleaseDates);
             var rating = new Dictionary<string, string> { { "Tmdb", movieInfo.VoteAverage.ToString(CultureInfo.InvariantCulture) } };
+
             var director = movieInfo
                 .Credits?
                 .Crew
-                .FirstOrDefault(x => x.Job.Equals("director", StringComparison.InvariantCultureIgnoreCase))
-                ?.Name;
+                .FirstOrDefault(x => x.Job.Equals("director", StringComparison.InvariantCultureIgnoreCase))?
+                .Name;
 
             return new MovieInfo
             {
-                Country = movieInfo.ProductionCountries.Any()?movieInfo.ProductionCountries.First().Name : null,
                 Title = movieInfo.Title,
-                Director = director,
+                OriginalTitle = movieInfo.OriginalTitle,
+                Year = movieInfo.ReleaseDate?.Year ?? MovieInfo.DefaultYear,
                 Rating = rating,
-                Year = movieInfo.ReleaseDate?.Year ?? 0,
-                OriginalTitle = movieInfo.OriginalTitle
+                Director = director,
+                Country = string.Join(", ", movieInfo.ProductionCountries.Select(pc => pc.Name)),
             };
         }
 
         public List<MovieInfo> GetWeekTopMovies()
         {
-            var searchTask = Client.GetMovieNowPlayingListAsync("RU");
-            return searchTask.Result.Results
-                .AsParallel()
-                .Select(movie => GetMovieInfo(movie.Id))
+            var moviesSearchResult = Client.GetMovieNowPlayingListAsync(Client.DefaultLanguage).Result.Results;
+            var tasks = moviesSearchResult.Select(m => GetMovieInfoAsync(m.Id)).ToArray();
+            Task.WaitAll(tasks);
+            return tasks
+                .Select(t => t.Result)
                 .OrderByDescending(movie => movie.Rating["Tmdb"])
                 .Take(5)
                 .ToList();
@@ -66,13 +82,15 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
         {
             var today = DateTime.Today;
             var startOfCurrentWeek = today.AddDays(-(int)today.DayOfWeek);
-            var searchTask = Client.GetMovieNowPlayingListAsync();
-            return searchTask.Result
-                .Results
-                .Where(movie => movie.ReleaseDate != null && movie.ReleaseDate >= startOfCurrentWeek)
-                .AsParallel()
-                .Select(movie => GetMovieInfo(movie.Id))
-                .ToList();
+            var moviesSearchResult = Client.GetMovieNowPlayingListAsync(Client.DefaultLanguage).Result.Results;
+
+            var tasks = moviesSearchResult
+                .Where(m => m.ReleaseDate != null && m.ReleaseDate >= startOfCurrentWeek)
+                .Select(m => GetMovieInfoAsync(m.Id))
+                .ToArray();
+
+            Task.WaitAll(tasks);
+            return tasks.Select(t => t.Result).ToList();
         }
     }
 }
