@@ -1,12 +1,13 @@
-﻿using CinemaGuideBot.Domain.MoviesInfoGetter;
-using NLog;
+﻿using NLog;
 using Telegram.Bot.Types;
+using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
     public class WeekTopCommand: ICommand
     {
         private static readonly Logger logger = LogManager.GetLogger("WeekTopCommand");
+
         public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
         {
             var topMovies = moviesInfoGetter.GetWeekTopMovies();
