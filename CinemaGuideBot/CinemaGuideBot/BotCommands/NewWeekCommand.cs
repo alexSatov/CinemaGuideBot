@@ -4,7 +4,7 @@ using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    class NewWeekCommand : ICommand
+    public class NewWeekCommand : ICommand
     {
         private static readonly Logger logger = LogManager.GetLogger("NewWeekCommand");
         public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
