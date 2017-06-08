@@ -25,7 +25,6 @@ namespace CinemaGuideBot
 
         private void RegisterHandlers()
         {
-            OnCallbackQuery += BotOnCallbackQueryReceived;
             OnMessage += OnMessageReceived;
             OnReceiveError += ErrorHandler;
         }
@@ -52,12 +51,6 @@ namespace CinemaGuideBot
             var message = messageEventArgs.Message;
             if (message == null || message.Type != MessageType.TextMessage) return;
             CommandExecutor.Execute(this, message);
-        }
-
-        private async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
-        {
-            await AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,
-                                           $"Received {callbackQueryEventArgs.CallbackQuery.Data}");
         }
     }
 

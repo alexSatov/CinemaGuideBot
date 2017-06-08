@@ -7,13 +7,13 @@ namespace CinemaGuideBot.BotCommands
 {
     public class HelpCommand: ICommand
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger = LogManager.GetLogger("HelpCommand");
        
         public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
         {
             var helpText = GenerateHelp(botClient);
             botClient.SendTextMessageAsync(request.Chat.Id, helpText);
-            logger.Debug("for client({0}) of {1} displayed help", request.From.ToFormattedString(), botClient.UserName);
+            logger.Debug("for {0} displayed help", request.From.ToFormattedString());
         }
 
         public static string GenerateHelp(Bot botClient)

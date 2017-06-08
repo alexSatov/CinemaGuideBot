@@ -5,7 +5,7 @@ namespace CinemaGuideBot.BotCommands
     public static class UserExtension{
         public static string ToFormattedString(this User user)
         {
-            return $"Id: {user.Id}, First name: {user.FirstName}, Last name: {user.LastName}";
+            return $"{user.LastName} {user.FirstName}(id={user.Id})";
         }
     }
 }

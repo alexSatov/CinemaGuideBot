@@ -6,7 +6,7 @@ namespace CinemaGuideBot.BotCommands
 {
     class StartCommand: ICommand
     {
-        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger logger = LogManager.GetLogger("StartCommand");
 
         public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
         {
@@ -14,7 +14,7 @@ namespace CinemaGuideBot.BotCommands
             var helpText = HelpCommand.GenerateHelp(botClient);
             var startText = $"Hello, dear user! I am your guide in cinema world.\n{helpText}";
             botClient.SendTextMessageAsync(request.Chat.Id, startText);
-            logger.Debug("for client({0}) of {1} displayed start message", request.From.ToFormattedString(), botClient.UserName);
+            logger.Debug("for {0} displayed start message", request.From.ToFormattedString());
         }
 
         public string HelpText => "show start info";

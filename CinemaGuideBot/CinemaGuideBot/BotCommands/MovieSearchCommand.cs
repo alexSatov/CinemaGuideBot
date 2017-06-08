@@ -1,11 +1,13 @@
 ﻿using System;
 using Telegram.Bot.Types;
 using CinemaGuideBot.Domain.MovieInfoGetter;
+using NLog;
 
 namespace CinemaGuideBot.BotCommands
 {
     class MovieSearchCommand : ICommand
     {
+        private static readonly Logger logger = LogManager.GetLogger("MovieSearchCommand");
         public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
         {
             var movieTitleStartIndex = request.Text.IndexOf(' ');
@@ -15,10 +17,14 @@ namespace CinemaGuideBot.BotCommands
             {
                 var result = movieInfoGetter.GetMovieInfo(movieTitle);
                 botClient.SendTextMessageAsync(request.Chat.Id, result.ToString());
+                logger.Debug("for {0} successfully found <{1}>",
+                    request.From.ToFormattedString(), movieTitle);
             }
             catch (ArgumentException)
             {
                 botClient.SendTextMessageAsync(request.Chat.Id, "Sorry, but i can't find movie by this title :(");
+                logger.Debug("for {0} not found <{1}>",
+                    request.From.ToFormattedString(), movieTitle);
             }
         }
 

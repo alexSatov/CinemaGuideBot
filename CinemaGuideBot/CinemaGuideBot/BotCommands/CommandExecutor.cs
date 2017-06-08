@@ -15,7 +15,7 @@ namespace CinemaGuideBot.BotCommands
         public CommandExecutor(ICommand[] commands, IMovieInfoGetter movieInfoGetter)
         {
             this.movieInfoGetter = movieInfoGetter;
-            logger = LogManager.GetCurrentClassLogger();
+            logger = LogManager.GetLogger("CommandExecutor");
             this.commands = commands.ToDictionary(command => command.Name, command => command);
             logger.Debug("added new commands: {0}", string.Join(", ", this.commands.Keys));
         }
