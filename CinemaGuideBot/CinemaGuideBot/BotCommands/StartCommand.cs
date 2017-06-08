@@ -1,23 +1,20 @@
-﻿using NLog;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types; 
 using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class StartCommand: ICommand
+    public class StartCommand: BaseCommand
     {
-        private static readonly Logger logger = LogManager.GetLogger("StartCommand");
-
-        public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+        public StartCommand() : base("/start", "show start info", "StartCommand")
         {
+        }
 
+        public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+        {
             var helpText = HelpCommand.GenerateHelp(botClient);
             var startText = $"Hello, dear user! I am your guide in cinema world.\n{helpText}";
             botClient.SendTextMessageAsync(request.Chat.Id, startText);
             logger.Debug("for {0} displayed start message", request.From.ToFormattedString());
         }
-
-        public string HelpText => "show start info";
-        public string Name => "/start";
     }
 }

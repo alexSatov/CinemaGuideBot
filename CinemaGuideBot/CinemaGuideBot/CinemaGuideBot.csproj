@@ -75,11 +75,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bot.cs" />
+    <Compile Include="BotCommands\BaseCommand.cs" />
     <Compile Include="BotCommands\CommandExecutor.cs" />
     <Compile Include="BotCommands\HelpCommand.cs" />
     <Compile Include="BotCommands\ICommandExecutor.cs" />
     <Compile Include="BotCommands\MovieSearchCommand.cs" />
-    <Compile Include="BotCommands\NewWeekCommand.cs" />
+    <Compile Include="BotCommands\WeekPremieresCommand.cs" />
     <Compile Include="BotCommands\StartCommand.cs" />
     <Compile Include="BotCommands\UserExtension.cs" />
     <Compile Include="BotCommands\WeekTopCommand.cs" />

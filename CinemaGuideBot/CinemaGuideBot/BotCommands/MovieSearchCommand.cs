@@ -5,10 +5,15 @@ using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class MovieSearchCommand : ICommand
+    public class MovieSearchCommand : BaseCommand
     {
         private static readonly Logger logger = LogManager.GetLogger("MovieSearchCommand");
-        public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+
+        public MovieSearchCommand() : base("/info", "search information about movie", "MovieSearchCommand")
+        {
+        }
+
+        public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
         {
             var movieTitleStartIndex = request.Text.IndexOf(' ');
             if(movieTitleStartIndex == -1) return;
@@ -27,8 +32,5 @@ namespace CinemaGuideBot.BotCommands
                     request.From.ToFormattedString(), movieTitle);
             }
         }
-
-        public string HelpText => "search information about movie";
-        public string Name => "/info";
     }
 }

@@ -3,16 +3,15 @@ using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class WeekTopCommand: BaseCommand
+    public class WeekPremieresCommand : BaseCommand
     {
-        public WeekTopCommand() : base("/top_week", "show week top 5 movies", "WeekTopCommand")
+        public WeekPremieresCommand() : base("/new_week", "show new movies of week", "WeekPremieresCommand")
         {
         }
-
         public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
         {
-            var topMovies = moviesInfoGetter.GetWeekTopMovies();
-            botClient.SendTextMessageAsync(request.Chat.Id, string.Join("\r\n", topMovies));
+            var newMovies = moviesInfoGetter.GetWeekNewMovies();
+            botClient.SendTextMessageAsync(request.Chat.Id, string.Join("\r\n", newMovies));
             logger.Debug("for {0} displayed week top", request.From.ToFormattedString());
         }
     }

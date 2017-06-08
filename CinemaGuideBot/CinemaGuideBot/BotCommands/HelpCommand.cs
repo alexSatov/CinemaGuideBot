@@ -1,15 +1,16 @@
-﻿using NLog;
-using System.Linq;
+﻿using System.Linq;
 using Telegram.Bot.Types;
 using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class HelpCommand: ICommand
+    public class HelpCommand: BaseCommand
     {
-        private static readonly Logger logger = LogManager.GetLogger("HelpCommand");
-       
-        public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+        public HelpCommand() : base("/help", "show this help", "HelpCommand")
+        {
+        }
+
+        public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
         {
             var helpText = GenerateHelp(botClient);
             botClient.SendTextMessageAsync(request.Chat.Id, helpText);
@@ -22,9 +23,5 @@ namespace CinemaGuideBot.BotCommands
                 .Select(command => $"{command.Name} - {command.HelpText}");
             return $"You can control me by sending these commands:\n{string.Join("\n", botCommands)}";
         }
-
-        public string HelpText => "show this help";
-
-        public string Name => "/help";
     }
 }
