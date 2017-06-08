@@ -9,12 +9,12 @@ namespace CinemaGuideBot
 {
     public class Bot : TelegramBotClient
     {
-        public readonly ICommandExecutor CommandExecutor;
+        public readonly ICommandExecutor<string> CommandExecutor;
         public readonly string UserName;
 
         private readonly Logger logger;
 
-        public Bot(string token, ICommandExecutor executor) : base(token)
+        public Bot(string token, ICommandExecutor<string> executor) : base(token)
         {
             CommandExecutor = executor;
             RegisterHandlers();
@@ -42,8 +42,9 @@ namespace CinemaGuideBot
             logger.Debug("bot completed the work");
         }
 
-        private static void ErrorHandler(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
+        private void ErrorHandler(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
         {
+            logger.Fatal(receiveErrorEventArgs.ToString());
             Debugger.Break();
         }
 

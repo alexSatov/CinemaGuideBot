@@ -1,11 +1,13 @@
-﻿using Telegram.Bot.Types;
+﻿using CinemaGuideBot.Domain.MoviesInfoGetter;
+using Telegram.Bot.Types;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public interface ICommandExecutor
+    public interface ICommandExecutor<T>
     {
-        ICommand[] GetAviableCommands();
-        void Register(ICommand command);
+        IMoviesInfoGetter MoviesInfoGetter { get; set; }
+        ICommand<T>[] GetAviableCommands();
+        void Register(ICommand<T> command);
         void Execute(Bot bot, Message message);
     }
 }

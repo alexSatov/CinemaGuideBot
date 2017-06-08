@@ -1,19 +1,16 @@
-﻿using Telegram.Bot.Types;
-using CinemaGuideBot.Domain.MoviesInfoGetter;
-
-namespace CinemaGuideBot.BotCommands
+﻿namespace CinemaGuideBot.BotCommands
 {
-    public class WeekPremieresCommand : BaseCommand
+    public class WeekPremieresCommand : BaseCommand<string>
     {
         public WeekPremieresCommand() : base("/weeknew", "премьеры недели")
         {
         }
 
-        public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+        public override string Execute(ICommandExecutor<string> invoker, string request)
         {
-            var newMovies = moviesInfoGetter.GetWeekNewMovies();
-            botClient.SendTextMessageAsync(request.Chat.Id, string.Join("\r\n", newMovies));
-            Logger.Debug($"for {request.From.ToFormattedString()} displayed week top");
+            var newMovies = invoker.MoviesInfoGetter.GetWeekNewMovies();
+            Logger.Debug("displayed week top");
+            return string.Join("\r\n", newMovies);
         }
     }
 }

@@ -7,26 +7,25 @@ using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class CommandExecutor : ICommandExecutor
+    public class CommandExecutor : ICommandExecutor<String>
     {
+        public IMoviesInfoGetter MoviesInfoGetter { get; set; }
         private readonly Logger logger;
-        private readonly IMoviesInfoGetter moviesInfoGetter;
-        private readonly Dictionary<string, ICommand> commands;
-
-        public CommandExecutor(IEnumerable<ICommand> commands, IMoviesInfoGetter moviesInfoGetter)
+        private readonly Dictionary<string, ICommand<String>> commands;
+        public CommandExecutor(ICommand<String>[] commands, IMoviesInfoGetter moviesInfoGetter)
         {
             logger = LogManager.GetLogger(GetType().Name);
-            this.moviesInfoGetter = moviesInfoGetter;
+            this.MoviesInfoGetter = moviesInfoGetter;
             this.commands = commands.ToDictionary(command => command.Name, command => command);
             logger.Debug("added new commands: {0}", string.Join(", ", this.commands.Keys));
         }
 
-        public ICommand[] GetAviableCommands()
+        public ICommand<string>[] GetAviableCommands()
         {
             return commands.Values.ToArray();
         }
 
-        public void Register(ICommand newCommand)
+        public void Register(ICommand<string> newCommand)
         {
             if (commands.ContainsKey(newCommand.Name)) return;
             commands.Add(newCommand.Name, newCommand);
@@ -35,13 +34,14 @@ namespace CinemaGuideBot.BotCommands
 
         public void Execute(Bot bot, Message message)
         {
-            ICommand commandHandler;
-            var command = message.Text.Split().First();
-
-            if (commands.TryGetValue(command, out commandHandler))
+            ICommand<String> commandHandler;
+            var args = message.Text.Split();
+            if (commands.TryGetValue(args.First(), out commandHandler))
                 try
                 {
-                    commandHandler.Execute(bot, message, moviesInfoGetter);
+                    var request = string.Join("", args.Skip(1));
+                    var result = commandHandler.Execute(this, request);
+                    bot.SendTextMessageAsync(message.From.Id, result);
                 }
                 catch (Exception e)
                 {

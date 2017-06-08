@@ -1,20 +1,16 @@
-﻿using Telegram.Bot.Types; 
-using CinemaGuideBot.Domain.MoviesInfoGetter;
-
-namespace CinemaGuideBot.BotCommands
+﻿namespace CinemaGuideBot.BotCommands
 {
-    public class StartCommand: BaseCommand
+    public class StartCommand: BaseCommand<string>
     {
         public StartCommand() : base("/start", "приветствие и help")
         {
         }
 
-        public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+        public override string Execute(ICommandExecutor<string> invoker, string request)
         {
-            var helpText = HelpCommand.GenerateHelp(botClient);
-            var startText = $"Приветствую! Я твой гид в мире кино. Давай же начнем.\r\n{helpText}";
-            botClient.SendTextMessageAsync(request.Chat.Id, startText);
-            Logger.Debug("for {0} displayed start message", request.From.ToFormattedString());
+            var helpText = HelpCommand.GenerateHelp(invoker.GetAviableCommands());
+            Logger.Debug("displayed start message");
+            return $"Приветствую! Я твой гид в мире кино. Давай же начнем.\r\n{helpText}";
         }
     }
 }

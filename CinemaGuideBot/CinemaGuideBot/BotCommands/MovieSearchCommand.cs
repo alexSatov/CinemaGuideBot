@@ -1,42 +1,32 @@
 ﻿using System;
-using Telegram.Bot.Types;
-using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class MovieSearchCommand : BaseCommand
+    public class MovieSearchCommand : BaseCommand<string>
     {
         public MovieSearchCommand() : base("/info", "поиск информации о фильме по названию")
         {
         }
 
-        public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+        public override string Execute(ICommandExecutor<string> invoker, string searchTitle)
         {
-            var searchTitleStartIndex = request.Text.IndexOf(' ');
-
-            if (searchTitleStartIndex == -1)
-            {
-                botClient.SendTextMessageAsync(request.Chat.Id, "Введите название фильма");
-                return;
-            }
-
-            var searchTitle = request.Text.Substring(searchTitleStartIndex + 1);
-            var sender = request.From.ToFormattedString();
+            if (searchTitle == string.Empty)
+                return "Введите название фильма";
             try
             {
-                var result = moviesInfoGetter.GetMovieInfo(searchTitle).ToString();
+                var result = invoker.MoviesInfoGetter.GetMovieInfo(searchTitle).ToString();
 
                 if (string.IsNullOrEmpty(result))
                     throw new ArgumentException("Фильм не найден");
 
-                botClient.SendTextMessageAsync(request.Chat.Id, result);
-                Logger.Debug($"for {sender} successfully found <{searchTitle}>");
+                Logger.Debug($"successfully found <{searchTitle}>");
+                return result;
             }
             catch (ArgumentException e)
             {
-                botClient.SendTextMessageAsync(request.Chat.Id, $"Вы пытались найти \"{searchTitle}\"\r\n{e.Message}");
-                Logger.Debug($"for {sender} not found <{searchTitle}>");
+                Logger.Debug($"not found <{searchTitle}>");
                 Logger.Debug($"----------EXCEPTION----------\r\n{e}\r\n----------EXCEPTION----------");
+                return $"Вы пытались найти \"{searchTitle}\"\r\n{e.Message}";
             }
         }
     }

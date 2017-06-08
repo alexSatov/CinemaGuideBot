@@ -1,29 +1,22 @@
 ﻿using System.Linq;
-using Telegram.Bot.Types;
-using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class HelpCommand: BaseCommand
+    public class HelpCommand: BaseCommand<string>
     {
         public HelpCommand() : base("/help", "показывает это сообщение")
         {
         }
 
-        public override void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
+        public override string Execute(ICommandExecutor<string> invoker, string request)
         {
-            var helpText = GenerateHelp(botClient);
-            botClient.SendTextMessageAsync(request.Chat.Id, helpText);
-            Logger.Debug("for {0} displayed help", request.From.ToFormattedString());
+            Logger.Debug("displayed help");
+            return GenerateHelp(invoker.GetAviableCommands());
         }
 
-        public static string GenerateHelp(Bot botClient)
+        public static string GenerateHelp(ICommand<string> [] commands)
         {
-            var botCommands = botClient
-                .CommandExecutor
-                .GetAviableCommands()
-                .Select(command => $"{command.Name} - {command.HelpText}");
-
+            var botCommands = commands.Select(command => $"{command.Name} - {command.HelpText}");
             return $"Я поддерживаю следующие команды:\r\n{string.Join("\r\n", botCommands)}";
         }
     }
