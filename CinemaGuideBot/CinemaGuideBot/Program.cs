@@ -24,7 +24,7 @@ namespace CinemaGuideBot
             container.Bind<ICommandExecutor>().To<CommandExecutor>();		
             container.Bind<ICommand>().To<HelpCommand>();		
             container.Bind<ICommand>().To<MovieSearchCommand>();		
-            container.Bind<IMovieInfoGetter>().To<KinopoiskApi>();		
+            container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();		
             container.Bind<ICommand>().To<StartCommand>();		
             return container.Get<Bot>();		
         }

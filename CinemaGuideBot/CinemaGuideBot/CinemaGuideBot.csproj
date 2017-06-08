@@ -78,7 +78,7 @@
     <Compile Include="BotCommands\MovieSearchCommand.cs" />
     <Compile Include="BotCommands\StartCommand.cs" />
     <Compile Include="BotCommands\UserExtension.cs" />
-    <Compile Include="Domain\MovieInfoGetter\IMovieInfoGetter.cs" />
+    <Compile Include="Domain\MovieInfoGetter\IMoviesInfoGetter.cs" />
     <Compile Include="Domain\MovieInfoGetter\KinopoiskWebPage.cs" />
     <Compile Include="Domain\MovieInfoGetter\KinopoiskApi.cs" />
     <Compile Include="Domain\MovieInfo.cs" />

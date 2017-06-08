@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace CinemaGuideBot.Domain.MovieInfoGetter
 {
-    public class TMDb : IMovieInfoGetter
+    public class TMDb : IMoviesInfoGetter
     {
         private readonly ServiceClient serviceClient;
         private const string apiToken = "14fc21ab59267fc7b0990d27ab14d6fb";
@@ -45,5 +45,14 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
             };
         }
 
+        public List<MovieInfo> GetTopMoviesOfWeek()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<MovieInfo> GetNewMoviesOfWeek()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

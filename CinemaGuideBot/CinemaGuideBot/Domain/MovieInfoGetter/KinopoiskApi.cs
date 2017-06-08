@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace CinemaGuideBot.Domain.MovieInfoGetter
 {
-    public class KinopoiskApi : IMovieInfoGetter
+    public class KinopoiskApi : IMoviesInfoGetter
     {
         public static readonly Uri KinopoiskApiUri = new Uri("https://getmovie.cc");
         private const string token = "037313259a17be837be3bd04a51bf678";
@@ -40,6 +40,16 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
                 Director = director.ToString(),
                 Rating = rating
             };
+        }
+
+        public List<MovieInfo> GetTopMoviesOfWeek()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<MovieInfo> GetNewMoviesOfWeek()
+        {
+            throw new NotImplementedException();
         }
     }
 }

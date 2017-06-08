@@ -36,7 +36,7 @@ namespace CinemaGuideBot
         }
 
         public void StopWorking()
-        { 
+        {
             StopReceiving();
             logger.Debug("bot completed the work");
         }
@@ -53,6 +53,5 @@ namespace CinemaGuideBot
             CommandExecutor.Execute(this, message);
         }
     }
-
 }
 

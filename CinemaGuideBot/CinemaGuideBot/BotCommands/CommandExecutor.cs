@@ -10,11 +10,11 @@ namespace CinemaGuideBot.BotCommands
     {
         private readonly Logger logger;
         private readonly Dictionary<string, ICommand> commands;
-        private readonly IMovieInfoGetter movieInfoGetter;
+        private readonly IMoviesInfoGetter moviesInfoGetter;
 
-        public CommandExecutor(ICommand[] commands, IMovieInfoGetter movieInfoGetter)
+        public CommandExecutor(ICommand[] commands, IMoviesInfoGetter moviesInfoGetter)
         {
-            this.movieInfoGetter = movieInfoGetter;
+            this.moviesInfoGetter = moviesInfoGetter;
             logger = LogManager.GetLogger("CommandExecutor");
             this.commands = commands.ToDictionary(command => command.Name, command => command);
             logger.Debug("added new commands: {0}", string.Join(", ", this.commands.Keys));
@@ -39,7 +39,7 @@ namespace CinemaGuideBot.BotCommands
             var command = message.Text.Split().First();
             if (commands.TryGetValue(command, out commandHandler))
             {
-                commandHandler.Execute(bot, message, movieInfoGetter);
+                commandHandler.Execute(bot, message, moviesInfoGetter);
             }
             else
             {

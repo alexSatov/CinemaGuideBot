@@ -8,14 +8,14 @@ namespace CinemaGuideBot.BotCommands
     class MovieSearchCommand : ICommand
     {
         private static readonly Logger logger = LogManager.GetLogger("MovieSearchCommand");
-        public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
+        public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
         {
             var movieTitleStartIndex = request.Text.IndexOf(' ');
             if(movieTitleStartIndex == -1) return;
             var movieTitle = request.Text.Substring(movieTitleStartIndex + 1);
             try
             {
-                var result = movieInfoGetter.GetMovieInfo(movieTitle);
+                var result = moviesInfoGetter.GetMovieInfo(movieTitle);
                 botClient.SendTextMessageAsync(request.Chat.Id, result.ToString());
                 logger.Debug("for {0} successfully found <{1}>",
                     request.From.ToFormattedString(), movieTitle);

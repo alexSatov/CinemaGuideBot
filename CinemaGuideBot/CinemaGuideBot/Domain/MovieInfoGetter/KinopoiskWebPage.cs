@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace CinemaGuideBot.Domain.MovieInfoGetter
 {
-    public class KinopoiskWebPage : IMovieInfoGetter
+    public class KinopoiskWebPage : IMoviesInfoGetter
     {
         public static readonly Uri KinopoiskUri = new Uri("https://www.kinopoisk.ru");
 
@@ -57,6 +57,16 @@ namespace CinemaGuideBot.Domain.MovieInfoGetter
                 Director = WebPageParser.UniteParsedMultibleValues(parseResult[4]),
                 Rating = rating
             };
+        }
+
+        public List<MovieInfo> GetTopMoviesOfWeek()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<MovieInfo> GetNewMoviesOfWeek()
+        {
+            throw new NotImplementedException();
         }
     }
 }

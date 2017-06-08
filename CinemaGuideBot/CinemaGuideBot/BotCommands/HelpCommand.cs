@@ -9,7 +9,7 @@ namespace CinemaGuideBot.BotCommands
     {
         private static readonly Logger logger = LogManager.GetLogger("HelpCommand");
        
-        public void Execute(Bot botClient, Message request, IMovieInfoGetter movieInfoGetter)
+        public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)
         {
             var helpText = GenerateHelp(botClient);
             botClient.SendTextMessageAsync(request.Chat.Id, helpText);
