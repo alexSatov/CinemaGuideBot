@@ -5,7 +5,7 @@ using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    class MovieSearchCommand : ICommand
+    public class MovieSearchCommand : ICommand
     {
         private static readonly Logger logger = LogManager.GetLogger("MovieSearchCommand");
         public void Execute(Bot botClient, Message request, IMoviesInfoGetter moviesInfoGetter)

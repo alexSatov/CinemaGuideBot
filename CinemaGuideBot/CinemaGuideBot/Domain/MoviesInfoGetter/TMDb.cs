@@ -15,6 +15,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
         public TMDb()
         {
             Client = new TMDbClient(apiToken);
+            Client.DefaultLanguage = "RU";
         }
 
         public MovieInfo GetMovieInfo(string searchTitle)
@@ -41,7 +42,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
 
             return new MovieInfo
             {
-                Country = movieInfo.ProductionCountries.Any()? movieInfo.ProductionCountries.First().Name : null,
+                Country = movieInfo.ProductionCountries.Any()?movieInfo.ProductionCountries.First().Name : null,
                 Title = movieInfo.Title,
                 Director = director,
                 Rating = rating,
@@ -54,6 +55,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
         {
             var searchTask = Client.GetMovieNowPlayingListAsync("RU");
             return searchTask.Result.Results
+                .AsParallel()
                 .Select(movie => GetMovieInfo(movie.Id))
                 .OrderByDescending(movie => movie.Rating["Tmdb"])
                 .Take(5)
@@ -68,6 +70,7 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
             return searchTask.Result
                 .Results
                 .Where(movie => movie.ReleaseDate != null && movie.ReleaseDate >= startOfCurrentWeek)
+                .AsParallel()
                 .Select(movie => GetMovieInfo(movie.Id))
                 .ToList();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Ninject;
 using CinemaGuideBot.BotCommands;
+using Ninject.Extensions.Conventions;
 using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot
@@ -17,17 +18,13 @@ namespace CinemaGuideBot
         }
 
         private static Bot CreateBotClient(string apiToken)
-        {		
-            var container = new StandardKernel();		
-            container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("apiToken", apiToken);		
-            container.Bind<ICommandExecutor>().To<CommandExecutor>();		
-            container.Bind<ICommand>().To<HelpCommand>();		
-            container.Bind<ICommand>().To<MovieSearchCommand>();		
-            container.Bind<ICommand>().To<WeekTopCommand>();		
-            container.Bind<ICommand>().To<NewWeekCommand>();		
-            container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();		
-            container.Bind<ICommand>().To<StartCommand>();		
-            return container.Get<Bot>();		
+        {
+            var container = new StandardKernel();
+            container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("apiToken", apiToken);
+            container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<ICommand>().BindSingleInterface());
+            container.Bind<ICommandExecutor>().To<CommandExecutor>();
+            container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
+            return container.Get<Bot>();
         }
 
         static void Test2()
