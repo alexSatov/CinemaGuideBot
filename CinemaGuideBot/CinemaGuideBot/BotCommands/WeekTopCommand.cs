@@ -4,7 +4,7 @@ using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class WeekTopCommand: BaseCommand
+    public class WeekTopCommand: BaseCommand<string>
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
         private readonly IMovieInfoFormatter movieInfoFormatter;

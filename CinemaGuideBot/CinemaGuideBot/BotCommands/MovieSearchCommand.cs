@@ -4,7 +4,7 @@ using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class MovieSearchCommand : BaseCommand
+    public class MovieSearchCommand : BaseCommand<string>
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
         private readonly IMovieInfoFormatter movieInfoFormatter;

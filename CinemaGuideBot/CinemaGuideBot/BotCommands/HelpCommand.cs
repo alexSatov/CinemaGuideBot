@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class HelpCommand: BaseCommand
+    public class HelpCommand: BaseCommand<string>
     {
-        private readonly Lazy<ICommandExecutor> commandExecutor;
+        private readonly Lazy<ICommandExecutor<string>> commandExecutor;
 
-        public HelpCommand(Lazy<ICommandExecutor> commandExecutor) : base("/help", "показывает это сообщение")
+        public HelpCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/help", "показывает это сообщение")
         {
             this.commandExecutor = commandExecutor;
         }
@@ -18,7 +18,7 @@ namespace CinemaGuideBot.BotCommands
             return GenerateHelp(commandExecutor.Value.GetAviableCommands());
         }
 
-        public static string GenerateHelp(ICommand[] commands)
+        public static string GenerateHelp(ICommand<string>[] commands)
         {
             var botCommands = commands.Select(command => $"{command.Name} - {command.HelpText}");
             return $"Я поддерживаю следующие команды:\r\n{string.Join("\r\n", botCommands)}";

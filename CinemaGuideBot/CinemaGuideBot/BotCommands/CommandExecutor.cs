@@ -3,28 +3,27 @@ using System;
 using System.Linq;
 using Telegram.Bot.Types;
 using System.Collections.Generic;
-using CinemaGuideBot.Domain;
 
 namespace CinemaGuideBot.BotCommands
 {
-    public class CommandExecutor : ICommandExecutor
+    public class CommandExecutor : ICommandExecutor<string>
     {
         private readonly Logger logger;
-        private readonly Dictionary<string, ICommand> commands;
+        private readonly Dictionary<string, ICommand<string>> commands;
 
-        public CommandExecutor(ICommand[] commands)
+        public CommandExecutor(ICommand<string>[] commands)
         {
             logger = LogManager.GetLogger(GetType().Name);
             this.commands = commands.ToDictionary(command => command.Name, command => command);
             logger.Debug("added new commands: {0}", string.Join(", ", this.commands.Keys));
         }
 
-        public ICommand[] GetAviableCommands()
+        public ICommand<string>[] GetAviableCommands()
         {
             return commands.Values.ToArray();
         }
 
-        public void Register(params ICommand[] newCommands)
+        public void Register(params ICommand<string>[] newCommands)
         {
             foreach (var newCommand in newCommands)
             {
@@ -36,7 +35,7 @@ namespace CinemaGuideBot.BotCommands
 
         public void Execute(Bot bot, Message message)
         {
-            ICommand commandHandler;
+            ICommand<string> commandHandler;
             var args = message.Text.Split();
             if (commands.TryGetValue(args.First(), out commandHandler))
                 try

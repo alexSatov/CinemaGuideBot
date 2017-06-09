@@ -8,11 +8,11 @@ namespace CinemaGuideBot
 {
     public class Bot : TelegramBotClient
     {
-        public readonly ICommandExecutor CommandExecutor;
+        public readonly ICommandExecutor<string> CommandExecutor;
         public readonly string Name;
         private static readonly Logger logger = LogManager.GetLogger(nameof(Bot));
 
-        public Bot(string token, ICommandExecutor executor) : base(token)
+        public Bot(string token, ICommandExecutor<string> executor) : base(token)
         {
             CommandExecutor = executor;
             RegisterHandlers();

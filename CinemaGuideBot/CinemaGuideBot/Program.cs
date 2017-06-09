@@ -24,8 +24,8 @@ namespace CinemaGuideBot
             container.Bind<IMovieInfoFormatter>().To<SimpleMovieInfoFormatter>().InSingletonScope();
             container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("token", token);
             container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
-            container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<ICommand>().BindSingleInterface());
-            container.Bind<ICommandExecutor>().To<CommandExecutor>();
+            container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<ICommand<string>>().BindSingleInterface());
+            container.Bind<ICommandExecutor<string>>().To<CommandExecutor>();
             return container.Get<Bot>();
         }
     }

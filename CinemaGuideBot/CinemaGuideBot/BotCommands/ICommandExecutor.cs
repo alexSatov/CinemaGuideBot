@@ -2,10 +2,10 @@
 
 namespace CinemaGuideBot.BotCommands
 {
-    public interface ICommandExecutor
+    public interface ICommandExecutor<T>
     {
-        ICommand[] GetAviableCommands();
-        void Register(params ICommand[] newCommands);
+        ICommand<T>[] GetAviableCommands();
+        void Register(params ICommand<T>[] newCommands);
         void Execute(Bot bot, Message message);
     }
 }

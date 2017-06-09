@@ -2,7 +2,7 @@
 
 namespace CinemaGuideBot.BotCommands
 {
-    public abstract class BaseCommand: ICommand
+    public abstract class BaseCommand<T>: ICommand<T>
     {
         public string Name { get; }
         public string HelpText { get; }
@@ -16,6 +16,6 @@ namespace CinemaGuideBot.BotCommands
             Logger = LogManager.GetLogger(GetType().Name);
         }
 
-        public abstract string Execute(string request);
+        public abstract T Execute(string request);
     }
 }

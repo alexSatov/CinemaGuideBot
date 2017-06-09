@@ -1,8 +1,8 @@
 ﻿namespace CinemaGuideBot.BotCommands
 {
-    public interface ICommand
+    public interface ICommand<out T>
     {
-        string Execute(string request);
+        T Execute(string request);
         string HelpText { get; }
         string Name { get; }
     }
