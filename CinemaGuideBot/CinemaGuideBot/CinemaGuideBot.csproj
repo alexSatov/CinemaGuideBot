@@ -92,6 +92,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cinema\MovieInfoParsers\IMovieInfoParser.cs" />
+    <Compile Include="Cinema\MovieInfoParsers\MovieInfoJsonParser.cs" />
     <Compile Include="TelegramBot\Bot.cs" />
     <Compile Include="TelegramBot\BotCommands\BotCommand.cs" />
     <Compile Include="TelegramBot\BotCommands\CommandExecutor.cs" />

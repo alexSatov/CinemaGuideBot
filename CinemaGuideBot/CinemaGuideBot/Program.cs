@@ -3,6 +3,7 @@ using Topshelf;
 using CinemaGuideBot.TelegramBot;
 using Ninject.Extensions.Conventions;
 using CinemaGuideBot.TelegramBot.BotCommands;
+using CinemaGuideBot.Cinema.MovieInfoParsers;
 using CinemaGuideBot.Cinema.MoviesInfoGetters;
 using CinemaGuideBot.TelegramBot.Localisation;
 
@@ -34,6 +35,7 @@ namespace CinemaGuideBot
             var container = new StandardKernel();
 
             container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
+            container.Bind<IMovieInfoParser>().To<MovieInfoJsonParser<ApiSearchResult>>();
 
             container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<IPhraseDict>().BindSingleInterface());
             container.Bind<BotReply>().To<BotReply>().InSingletonScope();
