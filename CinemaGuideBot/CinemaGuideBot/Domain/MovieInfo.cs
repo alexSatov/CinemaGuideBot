@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace CinemaGuideBot.Domain
 {
-    public struct MovieInfo
+    public class MovieInfo
     {
         public const int DefaultYear = 1800;
 
@@ -24,28 +23,6 @@ namespace CinemaGuideBot.Domain
                     throw new ArgumentOutOfRangeException($"Incorrect year ({value})");
                 year = value;
             }
-        }
-
-        public override string ToString()
-        {
-            if (string.IsNullOrEmpty(Title))
-                return "";
-
-            var year = Year == DefaultYear ? null : $"Год: {Year}";
-            var director = string.IsNullOrEmpty(Director) ? null : $"Режиссер: {Director}";
-            var country = string.IsNullOrEmpty(Country) ? null : $"Страна: {Country}";
-
-            var title = Title == OriginalTitle || OriginalTitle == null 
-                    ? $"Название: {Title}" 
-                    : $"Название: {Title} ({OriginalTitle})";
-            
-            var rating = string.Join(", ", Rating
-                .Where(r => !string.IsNullOrEmpty(r.Value))
-                .Select(r => $"{r.Key}: {r.Value}"));
-
-            return string.Join("\r\n", 
-                new string[] {title, year, director, country, rating}
-                .Where(p => !string.IsNullOrEmpty(p))) + "\r\n";
         }
     }
 }
