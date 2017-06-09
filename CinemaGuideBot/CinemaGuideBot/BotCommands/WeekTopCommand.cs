@@ -1,14 +1,18 @@
-﻿namespace CinemaGuideBot.BotCommands
+﻿using CinemaGuideBot.Domain.MoviesInfoGetter;
+
+namespace CinemaGuideBot.BotCommands
 {
-    public class WeekTopCommand: BaseCommand<string>
+    public class WeekTopCommand: BaseCommand
     {
-        public WeekTopCommand() : base("/weektop", "5 самых популярных фильмов недели")
+        private readonly IMoviesInfoGetter moviesInfoGetter;
+        public WeekTopCommand(IMoviesInfoGetter infoGetter) : base("/weektop", "5 самых популярных фильмов недели")
         {
+            moviesInfoGetter = infoGetter;
         }
 
-        public override string Execute(ICommandExecutor<string> invoker, string request)
+        public override string Execute(string request)
         {
-            var topMovies = invoker.MoviesInfoGetter.GetWeekTopMovies();
+            var topMovies = moviesInfoGetter.GetWeekTopMovies();
             Logger.Debug("displayed week top");
             return string.Join("\r\n", topMovies);
         }
