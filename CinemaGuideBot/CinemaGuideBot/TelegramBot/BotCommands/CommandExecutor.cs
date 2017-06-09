@@ -13,7 +13,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
         private readonly Dictionary<string, ICommand<string>> commands;
         private static readonly Regex textCommandParser = new Regex(@"(?<commandName>/\w+)\s?(?<request>.*)", RegexOptions.Compiled);
 
-        public CommandExecutor(ICommand<string>[] commands)
+        public CommandExecutor(IEnumerable<ICommand<string>> commands)
         {
             logger = LogManager.GetLogger(GetType().Name);
             this.commands = commands.ToDictionary(command => command.Name, command => command);

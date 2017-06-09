@@ -1,6 +1,6 @@
 ﻿namespace CinemaGuideBot.TelegramBot.Localisation
 {
-    class RuPhraseDict : IPhraseDict
+    public class RuPhraseDict : IPhraseDict
     {
         public string Language => "RU";
         public string Greeting => "Приветствую! Я твой гид в мире кино. Давай же начнем.";

@@ -14,7 +14,7 @@ namespace CinemaGuideBot.TelegramBot
 
         private readonly Dictionary<string, IPhraseDict> phraseDicts;
         
-        public BotReply(IPhraseDict[] phraseDicts)
+        public BotReply(IEnumerable<IPhraseDict> phraseDicts)
         {
             this.phraseDicts = phraseDicts.ToDictionary(phraseDict => phraseDict.Language);
             SupportedLanguages = new HashSet<string>(this.phraseDicts.Keys);
