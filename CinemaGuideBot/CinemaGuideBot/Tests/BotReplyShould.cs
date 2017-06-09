@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using NUnit.Framework;
+using FluentAssertions;
 using CinemaGuideBot.Cinema;
+using System.Collections.Generic;
 using CinemaGuideBot.TelegramBot;
 using CinemaGuideBot.TelegramBot.Localisation;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace CinemaGuideBot.Tests
 {

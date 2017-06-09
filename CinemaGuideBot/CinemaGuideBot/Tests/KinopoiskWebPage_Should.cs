@@ -1,8 +1,8 @@
 ﻿using System;
+using NUnit.Framework;
+using FluentAssertions;
 using System.Threading.Tasks;
 using CinemaGuideBot.Cinema.MoviesInfoGetters;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace CinemaGuideBot.Tests
 {
