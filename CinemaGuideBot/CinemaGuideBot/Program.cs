@@ -1,9 +1,9 @@
-﻿using System;
-using Ninject;
+﻿using Ninject;
 using CinemaGuideBot.BotCommands;
 using CinemaGuideBot.Domain;
 using Ninject.Extensions.Conventions;
 using CinemaGuideBot.Domain.MoviesInfoGetter;
+using Topshelf;
 
 namespace CinemaGuideBot
 {
@@ -11,11 +11,20 @@ namespace CinemaGuideBot
     {
         static void Main(string[] args)
         {
-            var bot = CreateBotClient("355988386:AAFqvo7ldCDoFNJpOCZqpI864Cbsb1H7IOI");
-            Console.Title = bot.Name;
-            bot.StartWorking();
-            var str = Console.ReadLine();
-            bot.StopWorking();
+            const string telegramApiToken = "355988386:AAFqvo7ldCDoFNJpOCZqpI864Cbsb1H7IOI";
+            HostFactory.Run(x =>                                 
+            {
+                x.Service<Bot>(s =>                        
+                {
+                    s.ConstructUsing(name => CreateBotClient(telegramApiToken));   
+                    s.WhenStarted(tc => tc.StartWorking());             
+                    s.WhenStopped(tc => tc.StopWorking());               
+                });
+                x.RunAsLocalSystem();                            
+                x.SetDescription("Topshelf Host of CinemaGuideBot");        
+                x.SetDisplayName("CinemaGuideBot");                       
+                x.SetServiceName("CinemaGuideBot");                       
+            });
         }
 
         private static Bot CreateBotClient(string token)
