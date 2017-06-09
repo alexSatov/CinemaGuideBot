@@ -1,17 +1,13 @@
 using System;
 using CinemaGuideBot.Cinema.MoviesInfoGetters;
-using CinemaGuideBot.Cinema.MovieInfoFormatters;
 
 namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public class MovieSearchCommand : BaseCommand<string>
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
-        private readonly IMovieInfoFormatter movieInfoFormatter;
-        public MovieSearchCommand(IMoviesInfoGetter infoGetter, IMovieInfoFormatter movieInfoFormatter) 
-            : base("/info", "поиск информации о фильме по названию")
+        public MovieSearchCommand(IMoviesInfoGetter infoGetter) : base("/info")
         {
-            this.movieInfoFormatter = movieInfoFormatter;
             moviesInfoGetter = infoGetter;
         }
 
@@ -22,18 +18,18 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
             try
             {
                 var movieInfo = moviesInfoGetter.GetMovieInfo(searchTitle);
-                var formattedInfo = movieInfoFormatter.Format(movieInfo);
+                var formattedInfo = Bot.BotReply.ReplyFrom(movieInfo);
 
                 if (string.IsNullOrEmpty(formattedInfo))
-                    throw new ArgumentException("Фильм не найден");
+                    throw new ArgumentException("Movie not found (Empty info)");
 
                 Logger.Debug($"successfully found <{searchTitle}>");
                 return formattedInfo;
             }
             catch (ArgumentException e)
             {
-                Logger.Debug($"not found <{searchTitle}>");
-                return $"Вы пытались найти \"{searchTitle}\"\r\n{e.Message}";
+                Logger.Warn($"not found <{searchTitle}> ({e.Message})");
+                return "Фильм не найден";
             }
         }
     }

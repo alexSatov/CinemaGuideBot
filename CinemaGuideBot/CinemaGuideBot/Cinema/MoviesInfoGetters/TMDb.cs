@@ -39,7 +39,7 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
                 .FirstOrDefault();
 
             if (mostPopularMovie == null)
-                throw new ArgumentException("Фильм не найден");
+                throw new ArgumentException("Movie not found");
 
             return GetMovieInfo(mostPopularMovie.Id);
         }

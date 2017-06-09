@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using CinemaGuideBot.Infrastructure;
+using CinemaGuideBot.Web;
 using System.Text.RegularExpressions;
 
 namespace CinemaGuideBot.Cinema.MoviesInfoGetters

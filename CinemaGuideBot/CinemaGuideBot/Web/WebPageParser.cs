@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace CinemaGuideBot.Infrastructure
+namespace CinemaGuideBot.Web
 {
     public static class WebPageParser
     {

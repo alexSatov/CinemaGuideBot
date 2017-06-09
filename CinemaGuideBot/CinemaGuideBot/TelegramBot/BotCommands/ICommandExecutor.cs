@@ -6,6 +6,6 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
     {
         ICommand<T>[] GetAviableCommands();
         void Register(params ICommand<T>[] newCommands);
-        void Execute(Bot bot, Message message);
+        string Execute(Message message);
     }
 }

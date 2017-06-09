@@ -34,25 +34,18 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
             }
         }
 
-        public void Execute(Bot bot, Message message)
+        public string Execute(Message message)
         {
             ICommand<string> commandHandler;
             var match = textCommandParser.Match(message.Text);
             var coomandName = match.Groups["commandName"].Value;
-            if (commands.TryGetValue(coomandName, out commandHandler))
-                try
-                {
-                    var request = match.Groups["request"].Value;
-                    var response = commandHandler.Execute(request);
-                    bot.SendTextMessageAsync(message.From.Id, response);
-                }
-                catch (Exception e)
-                {
-                    bot.SendTextMessageAsync(message.Chat.Id, "Непредвиденная ошибка");
-                    logger.Error(e);
-                }
-            else
-                bot.SendTextMessageAsync(message.Chat.Id, "Неизвестная команда");
+
+            if (!commands.TryGetValue(coomandName, out commandHandler))
+                throw new ArgumentOutOfRangeException($"Unknown command {coomandName}");
+
+            var request = match.Groups["request"].Value;
+            var response = commandHandler.Execute(request);
+            return response;
         }
     }
 }

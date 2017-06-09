@@ -4,7 +4,6 @@ using CinemaGuideBot.TelegramBot;
 using Ninject.Extensions.Conventions;
 using CinemaGuideBot.TelegramBot.BotCommands;
 using CinemaGuideBot.Cinema.MoviesInfoGetters;
-using CinemaGuideBot.Cinema.MovieInfoFormatters;
 
 namespace CinemaGuideBot
 {
@@ -32,7 +31,7 @@ namespace CinemaGuideBot
         private static Bot CreateBotClient(string token)
         {
             var container = new StandardKernel();
-            container.Bind<IMovieInfoFormatter>().To<SimpleMovieInfoFormatter>().InSingletonScope();
+            container.Bind<BotReply>().To<BotReply>().InSingletonScope();
             container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("token", token);
             container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
             container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<ICommand<string>>().BindSingleInterface());

@@ -6,7 +6,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
     {
         private readonly Lazy<ICommandExecutor<string>> commandExecutor;
 
-        public StartCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/start", "приветствие и help")
+        public StartCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/start")
         {
             this.commandExecutor = commandExecutor;
         }
@@ -16,7 +16,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
             var aviableCommands = commandExecutor.Value.GetAviableCommands();
             var helpText = HelpCommand.GenerateHelp(aviableCommands);
             Logger.Debug("displayed start message");
-            return $"Приветствую! Я твой гид в мире кино. Давай же начнем.\r\n{helpText}";
+            return $"{Bot.BotReply.Greeting}\r\n{helpText}";
         }
     }
 }

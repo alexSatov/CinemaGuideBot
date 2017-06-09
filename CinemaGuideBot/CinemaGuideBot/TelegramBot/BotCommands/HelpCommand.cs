@@ -7,7 +7,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
     {
         private readonly Lazy<ICommandExecutor<string>> commandExecutor;
 
-        public HelpCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/help", "показывает это сообщение")
+        public HelpCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/help")
         {
             this.commandExecutor = commandExecutor;
         }
