@@ -1,9 +1,9 @@
 ﻿using System;
 using Ninject;
 using CinemaGuideBot.BotCommands;
-using CinemaGuideBot.Domain;
 using Ninject.Extensions.Conventions;
-using CinemaGuideBot.Domain.MoviesInfoGetter;
+using CinemaGuideBot.Domain.MoviesInfoGetters;
+using CinemaGuideBot.Domain.MovieInfoFormatters;
 
 namespace CinemaGuideBot
 {
@@ -25,7 +25,7 @@ namespace CinemaGuideBot
             container.Bind<Bot>().To<Bot>().InSingletonScope().WithConstructorArgument("token", token);
             container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
             container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<ICommand<string>>().BindSingleInterface());
-            container.Bind<ICommandExecutor<string>>().To<CommandExecutor>();
+            container.Bind<ICommandExecutor<string>>().To<CommandExecutor>().InSingletonScope();
             return container.Get<Bot>();
         }
     }

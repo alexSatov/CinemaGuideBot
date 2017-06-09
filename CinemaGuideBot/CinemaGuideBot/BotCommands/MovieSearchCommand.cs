@@ -1,6 +1,6 @@
 ﻿using System;
-using CinemaGuideBot.Domain;
-using CinemaGuideBot.Domain.MoviesInfoGetter;
+using CinemaGuideBot.Domain.MoviesInfoGetters;
+using CinemaGuideBot.Domain.MovieInfoFormatters;
 
 namespace CinemaGuideBot.BotCommands
 {
@@ -23,6 +23,7 @@ namespace CinemaGuideBot.BotCommands
             {
                 var movieInfo = moviesInfoGetter.GetMovieInfo(searchTitle);
                 var formattedInfo = movieInfoFormatter.Format(movieInfo);
+
                 if (string.IsNullOrEmpty(formattedInfo))
                     throw new ArgumentException("Фильм не найден");
 

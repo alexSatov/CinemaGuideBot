@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using CinemaGuideBot.Domain;
-using CinemaGuideBot.Domain.MoviesInfoGetter;
+using CinemaGuideBot.Domain.MoviesInfoGetters;
+using CinemaGuideBot.Domain.MovieInfoFormatters;
 
 namespace CinemaGuideBot.BotCommands
 {
@@ -8,7 +8,8 @@ namespace CinemaGuideBot.BotCommands
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
         private readonly IMovieInfoFormatter movieInfoFormatter;
-        public WeekTopCommand(IMoviesInfoGetter infoGetter, IMovieInfoFormatter movieInfoFormatter) : base("/weektop", "5 самых популярных фильмов недели")
+        public WeekTopCommand(IMoviesInfoGetter infoGetter, IMovieInfoFormatter movieInfoFormatter) 
+            : base("/weektop", "5 самых популярных фильмов недели")
         {
             this.movieInfoFormatter = movieInfoFormatter;
             moviesInfoGetter = infoGetter;

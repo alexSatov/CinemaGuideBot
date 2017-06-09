@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
 
-namespace CinemaGuideBot.Domain.MoviesInfoGetter
+namespace CinemaGuideBot.Domain.MoviesInfoGetters
 {
     public class KinopoiskWebPage : IMoviesInfoGetter
     {
