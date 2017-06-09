@@ -3,9 +3,10 @@ using CinemaGuideBot.Cinema.MoviesInfoGetters;
 
 namespace CinemaGuideBot.TelegramBot.BotCommands
 {
-    public class MovieSearchCommand : BaseCommand<string>
+    public class MovieSearchCommand : BotCommand<string>
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
+
         public MovieSearchCommand(IMoviesInfoGetter infoGetter) : base("/info")
         {
             moviesInfoGetter = infoGetter;
@@ -14,7 +15,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
         public override string Execute(string searchTitle)
         {
             if (searchTitle == string.Empty)
-                return "¬ведите название фильма";
+                return Bot.BotReply.EnterMovieTitle;
             try
             {
                 var movieInfo = moviesInfoGetter.GetMovieInfo(searchTitle);
@@ -29,7 +30,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
             catch (ArgumentException e)
             {
                 Logger.Warn($"not found <{searchTitle}> ({e.Message})");
-                return "‘ильм не найден";
+                return Bot.BotReply.MovieNotFound;
             }
         }
     }

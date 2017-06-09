@@ -2,7 +2,7 @@ using System;
 
 namespace CinemaGuideBot.TelegramBot.BotCommands
 {
-    public class StartCommand: BaseCommand<string>
+    public class StartCommand: BotCommand<string>
     {
         private readonly Lazy<ICommandExecutor<string>> commandExecutor;
 

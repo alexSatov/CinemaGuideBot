@@ -9,10 +9,14 @@
         public string MovieSearchCommandDescription => "поиск информации о фильме по названию";
         public string WeekPremieresCommandDescription => "премьеры недели";
         public string WeekTopCommandDescription => "5 самых популярных фильмов недели";
+        public string LangCommandDescription => "смена языка";
 
         public string HelpText => "Я поддерживаю следующие команды:";
         public string EnterMovieTitle => "Введите название фильма";
         public string MovieNotFound => "Фильм не найден";
+        public string EnterLanguage => "Введите язык";
+        public string UnsupportedLanguage => "Неподдерживаемый язык. Поддерживаемые языки:";
+        public string LanguageChanged => "Язык изменен";
         public string UnknownCommand => "Неизвестная команда";
         public string UnexpectedError => "Непредвиденная ошибка";
 

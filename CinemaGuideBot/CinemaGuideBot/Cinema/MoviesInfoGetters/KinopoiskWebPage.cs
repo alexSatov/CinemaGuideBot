@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
+using CinemaGuideBot.Web;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using CinemaGuideBot.Web;
 using System.Text.RegularExpressions;
 
 namespace CinemaGuideBot.Cinema.MoviesInfoGetters

@@ -3,7 +3,7 @@ using CinemaGuideBot.Cinema.MoviesInfoGetters;
 
 namespace CinemaGuideBot.TelegramBot.BotCommands
 {
-    public class WeekPremieresCommand : BaseCommand<string>
+    public class WeekPremieresCommand : BotCommand<string>
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
 

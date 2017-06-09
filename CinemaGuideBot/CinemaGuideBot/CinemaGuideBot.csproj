@@ -97,6 +97,7 @@
     <Compile Include="TelegramBot\BotCommands\CommandExecutor.cs" />
     <Compile Include="TelegramBot\BotCommands\HelpCommand.cs" />
     <Compile Include="TelegramBot\BotCommands\ICommandExecutor.cs" />
+    <Compile Include="TelegramBot\BotCommands\LangCommand.cs" />
     <Compile Include="TelegramBot\BotCommands\MovieSearchCommand.cs" />
     <Compile Include="TelegramBot\BotCommands\WeekPremieresCommand.cs" />
     <Compile Include="TelegramBot\BotCommands\StartCommand.cs" />
@@ -108,10 +109,10 @@
     <Compile Include="Cinema\MovieInfo.cs" />
     <Compile Include="TelegramBot\BotCommands\ICommand.cs" />
     <Compile Include="Cinema\MoviesInfoGetters\TMDb.cs" />
-    <Compile Include="TelegramBot\Localisation\EnPhraseDict.cs" />
+    <Compile Include="TelegramBot\Localisation\ENPhraseDict.cs" />
     <Compile Include="TelegramBot\BotReply.cs" />
     <Compile Include="TelegramBot\Localisation\IPhraseDict.cs" />
-    <Compile Include="TelegramBot\Localisation\RuPhraseDict.cs" />
+    <Compile Include="TelegramBot\Localisation\RUPhraseDict.cs" />
     <Compile Include="Web\WebPageParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

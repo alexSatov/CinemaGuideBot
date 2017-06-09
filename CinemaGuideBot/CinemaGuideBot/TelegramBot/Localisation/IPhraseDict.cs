@@ -9,10 +9,14 @@
         string MovieSearchCommandDescription { get; }
         string WeekPremieresCommandDescription { get; }
         string WeekTopCommandDescription { get; }
+        string LangCommandDescription { get; }
 
         string HelpText { get; }
         string EnterMovieTitle { get; }
         string MovieNotFound { get; }
+        string EnterLanguage { get; }
+        string UnsupportedLanguage { get; }
+        string LanguageChanged { get; }
         string UnknownCommand { get; }
         string UnexpectedError { get; }
 
