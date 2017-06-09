@@ -14,11 +14,12 @@ namespace CinemaGuideBot
             const string telegramApiToken = "355988386:AAFqvo7ldCDoFNJpOCZqpI864Cbsb1H7IOI";
             HostFactory.Run(x =>                                 
             {
+                x.UseNLog();
                 x.Service<Bot>(s =>                        
                 {
-                    s.ConstructUsing(name => CreateBotClient(telegramApiToken));   
-                    s.WhenStarted(tc => tc.StartWorking());             
-                    s.WhenStopped(tc => tc.StopWorking());               
+                    s.ConstructUsing(name => CreateBotClient(telegramApiToken));
+                    s.WhenStarted(bot => bot.StartReceiving());             
+                    s.WhenStopped(bot => bot.StopReceiving());               
                 });
                 x.RunAsLocalSystem();                            
                 x.SetDescription("Topshelf Host of CinemaGuideBot");        

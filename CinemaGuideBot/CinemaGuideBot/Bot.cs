@@ -1,16 +1,16 @@
-﻿using NLog;
+﻿using CinemaGuideBot.BotCommands;
+using NLog;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.Enums;
-using CinemaGuideBot.BotCommands;
 
 namespace CinemaGuideBot
 {
     public class Bot : TelegramBotClient
     {
+        private static readonly Logger logger = LogManager.GetLogger(nameof(Bot));
         public readonly ICommandExecutor<string> CommandExecutor;
         public readonly string Name;
-        private static readonly Logger logger = LogManager.GetLogger(nameof(Bot));
 
         public Bot(string token, ICommandExecutor<string> executor) : base(token)
         {
@@ -31,33 +31,18 @@ namespace CinemaGuideBot
             OnReceiveError += ErrorHandler;
         }
 
-        public void StartWorking()
-        {
-            StartReceiving();
-            logger.Debug("bot began work");
-        }
-
-        public void StopWorking()
-        {
-            StopReceiving();
-            logger.Debug("bot completed the work");
-        }
-
         private void ErrorHandler(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
         {
             logger.Fatal(receiveErrorEventArgs.ToString());
-            StopWorking();
+            StopReceiving();
         }
 
         private void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             var message = messageEventArgs.Message;
-
             if (message == null || message.Type != MessageType.TextMessage)
                 return;
-
             CommandExecutor.Execute(this, message);
         }
     }
 }
-
