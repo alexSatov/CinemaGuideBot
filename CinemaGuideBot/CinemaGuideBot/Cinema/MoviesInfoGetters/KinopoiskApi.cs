@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
-using Newtonsoft.Json;
 using System.Threading;
 using CinemaGuideBot.Web;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using CinemaGuideBot.Cinema.MovieInfoParsers;
 
 namespace CinemaGuideBot.Cinema.MoviesInfoGetters
 {
@@ -15,6 +15,12 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
 
         private const string token = "037313259a17be837be3bd04a51bf678";
         private const int millisecondsDelay = 2000;
+        private static IMovieInfoParser movieInfoParser;
+
+        public KinopoiskApi(IMovieInfoParser movieInfoParser)
+        {
+            KinopoiskApi.movieInfoParser = movieInfoParser;
+        }
 
         public MovieInfo GetMovieInfo(string searchTitle)
         {
@@ -45,23 +51,7 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
 
                 cancellationTokenSource.Cancel();
                 var page = Regex.Unescape(pageTask.Result);
-                var searchResult = JsonConvert.DeserializeObject<ApiSearchResult>(page);
-                
-                var rating = new Dictionary<string, string>
-                {
-                    ["Кинопоиск"] = searchResult.Rating.Kp_rating,
-                    ["IMDb"] = searchResult.Rating.Imdb
-                };
-
-                return new MovieInfo
-                {
-                    Title = searchResult.Name_ru,
-                    OriginalTitle = searchResult.Name_en,
-                    Year = string.IsNullOrEmpty(searchResult.Year) ? MovieInfo.DefaultYear : int.Parse(searchResult.Year),
-                    Country = searchResult.Country,
-                    Director = searchResult.Creators["director"][0].Name_person_ru,
-                    Rating = rating
-                };
+                return movieInfoParser.Parse(page);
             }
         }
 
@@ -84,7 +74,7 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
         }
     }
 
-    class ApiSearchResult
+    class ApiSearchResult : IMovieInfoJsonObject
     {
         public string Name_ru { get; set; }
         public string Name_en { get; set; }
@@ -92,6 +82,25 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
         public string Country { get; set; }
         public Dictionary<string, Person[]> Creators { get; set; }
         public ApiRating Rating { get; set; }
+
+        public MovieInfo ToMovieInfo()
+        {
+            var rating = new Dictionary<string, string>
+            {
+                ["Кинопоиск"] = Rating.Kp_rating,
+                ["IMDb"] = Rating.Imdb
+            };
+
+            return new MovieInfo
+            {
+                Title = Name_ru,
+                OriginalTitle = Name_en,
+                Year = string.IsNullOrEmpty(Year) ? MovieInfo.DefaultYear : int.Parse(Year),
+                Country = Country,
+                Director = string.Join(", ", Creators["director"].Select(d => d.Name_person_ru)),
+                Rating = rating
+            };
+        }
     }
 
     class ApiRating

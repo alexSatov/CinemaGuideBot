@@ -20,7 +20,8 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
             catch (ArgumentException e)
             {
                 Logger.Warn($"{e.Message}");
-                return $"{Bot.BotReply.CurrentPhraseDict.UnsupportedLanguage}";
+                return $"{Bot.BotReply.CurrentPhraseDict.UnsupportedLanguage} " +
+                       $"{string.Join(", ", Bot.BotReply.SupportedLanguages)}";
             }
         }
     }
