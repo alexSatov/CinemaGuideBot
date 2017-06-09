@@ -103,12 +103,9 @@
     <Compile Include="TelegramBot\BotReply.cs" />
     <Compile Include="TelegramBot\Localisation\IPhraseDict.cs" />
     <Compile Include="TelegramBot\Localisation\RUPhraseDict.cs" />
-<<<<<<< HEAD
     <Compile Include="Tests\KinopoiskApi_Should.cs" />
     <Compile Include="Tests\KinopoiskWebPage_Should.cs" />
-=======
     <Compile Include="Tests\BotReplyShould.cs" />
->>>>>>> aca49712644e683be2eba217fa291300bccc041d
     <Compile Include="Web\WebPageParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
