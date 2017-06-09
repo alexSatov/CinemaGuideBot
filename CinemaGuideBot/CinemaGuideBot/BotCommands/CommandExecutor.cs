@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using Telegram.Bot.Types;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace CinemaGuideBot.BotCommands
 {
@@ -10,7 +11,7 @@ namespace CinemaGuideBot.BotCommands
     {
         private readonly Logger logger;
         private readonly Dictionary<string, ICommand<string>> commands;
-
+        private static readonly Regex texCommadParser = new Regex(@"(?<commandName>/\w+)\s?(?<request>.*)", RegexOptions.Compiled);
         public CommandExecutor(ICommand<string>[] commands)
         {
             logger = LogManager.GetLogger(GetType().Name);
@@ -36,13 +37,14 @@ namespace CinemaGuideBot.BotCommands
         public void Execute(Bot bot, Message message)
         {
             ICommand<string> commandHandler;
-            var args = message.Text.Split();
-            if (commands.TryGetValue(args.First(), out commandHandler))
+            var match = texCommadParser.Match(message.Text);
+            var coomandName = match.Groups["commandName"].Value;
+            if (commands.TryGetValue(coomandName, out commandHandler))
                 try
                 {
-                    var request = string.Join("", args.Skip(1));
-                    var result = commandHandler.Execute(request);
-                    bot.SendTextMessageAsync(message.From.Id, result);
+                    var request = match.Groups["request"].Value;
+                    var response = commandHandler.Execute(request);
+                    bot.SendTextMessageAsync(message.From.Id, response);
                 }
                 catch (Exception e)
                 {
