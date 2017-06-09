@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace CinemaGuideBot.Domain.MoviesInfoGetter
 {
@@ -35,37 +36,40 @@ namespace CinemaGuideBot.Domain.MoviesInfoGetter
 
         private static async Task<MovieInfo> GetMovieInfoAsync(int movieId)
         {
-            var pageTask = await Task.WhenAny(
-                WebPageParser.GetPageAsync(KinopoiskApiUri, $"/api/kinopoisk.json?id={movieId}&token={token}"), 
-                Task.Delay(millisecondsDelay));
-
-            if (pageTask as Task<string> == null)
-                return new MovieInfo();
-
-            var page = Regex.Unescape((pageTask as Task<string>).Result);
-            var fullMovieInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(page);
-
-            var director = ((fullMovieInfo["creators"] as JObject)?
-                    .GetValue("director")
-                    .First as JObject)?
-                .GetValue("name_person_ru");
-
-            var jRating = (JObject)fullMovieInfo["rating"];
-            var rating = new Dictionary<string, string>
+            using (var cancellationTokenSource = new CancellationTokenSource())
             {
-                ["Кинопоиск"] = jRating.GetValue("imdb")?.ToString(),
-                ["IMDb"] = jRating.GetValue("kp_rating")?.ToString()
-            };
+                var pageTask = WebPageParser.GetPageAsync(KinopoiskApiUri, $"/api/kinopoisk.json?id={movieId}&token={token}");
+                var completedTask = await Task.WhenAny(pageTask, Task.Delay(millisecondsDelay, cancellationTokenSource.Token));
 
-            return new MovieInfo
-            {
-                Title = fullMovieInfo["name_ru"]?.ToString(),
-                OriginalTitle = fullMovieInfo["name_en"]?.ToString(),
-                Year = fullMovieInfo["year"] == null ? 1800 : int.Parse(fullMovieInfo["year"].ToString()),
-                Country = fullMovieInfo["country"]?.ToString(),
-                Director = director?.ToString(),
-                Rating = rating
-            };
+                if (pageTask != completedTask)
+                    return new MovieInfo();
+
+                cancellationTokenSource.Cancel();
+                var page = Regex.Unescape(pageTask.Result);
+                var fullMovieInfo = JsonConvert.DeserializeObject<Dictionary<string, object>>(page);
+
+                var director = ((fullMovieInfo["creators"] as JObject)?
+                        .GetValue("director")
+                        .First as JObject)?
+                    .GetValue("name_person_ru");
+
+                var jRating = (JObject) fullMovieInfo["rating"];
+                var rating = new Dictionary<string, string>
+                {
+                    ["Кинопоиск"] = jRating.GetValue("imdb")?.ToString(),
+                    ["IMDb"] = jRating.GetValue("kp_rating")?.ToString()
+                };
+
+                return new MovieInfo
+                {
+                    Title = fullMovieInfo["name_ru"]?.ToString(),
+                    OriginalTitle = fullMovieInfo["name_en"]?.ToString(),
+                    Year = fullMovieInfo["year"] == null ? 1800 : int.Parse(fullMovieInfo["year"].ToString()),
+                    Country = fullMovieInfo["country"]?.ToString(),
+                    Director = director?.ToString(),
+                    Rating = rating
+                };
+            }
         }
 
         public List<MovieInfo> GetWeekTopMovies()
