@@ -1,6 +1,6 @@
 using Telegram.Bot.Types;
 
-namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public static class UserExtension
     {

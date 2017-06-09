@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using FluentAssertions;
-using CinemaGuideBot.Domain;
+using CinemaGuideBot.Cinema;
 using System.Collections.Generic;
 
 namespace CinemaGuideBot.Tests

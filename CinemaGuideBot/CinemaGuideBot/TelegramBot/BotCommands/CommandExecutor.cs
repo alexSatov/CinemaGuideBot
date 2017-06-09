@@ -1,17 +1,17 @@
-п»їusing NLog;
+using NLog;
 using System;
 using System.Linq;
 using Telegram.Bot.Types;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public class CommandExecutor : ICommandExecutor<string>
     {
         private readonly Logger logger;
         private readonly Dictionary<string, ICommand<string>> commands;
-        private static readonly Regex texCommadParser = new Regex(@"(?<commandName>/\w+)\s?(?<request>.*)", RegexOptions.Compiled);
+        private static readonly Regex textCommandParser = new Regex(@"(?<commandName>/\w+)\s?(?<request>.*)", RegexOptions.Compiled);
         public CommandExecutor(ICommand<string>[] commands)
         {
             logger = LogManager.GetLogger(GetType().Name);
@@ -37,7 +37,7 @@ namespace CinemaGuideBot.BotCommands
         public void Execute(Bot bot, Message message)
         {
             ICommand<string> commandHandler;
-            var match = texCommadParser.Match(message.Text);
+            var match = textCommandParser.Match(message.Text);
             var coomandName = match.Groups["commandName"].Value;
             if (commands.TryGetValue(coomandName, out commandHandler))
                 try
@@ -48,11 +48,11 @@ namespace CinemaGuideBot.BotCommands
                 }
                 catch (Exception e)
                 {
-                    bot.SendTextMessageAsync(message.Chat.Id, "РќРµРїСЂРµРґРІРёРґРµРЅРЅР°СЏ РѕС€РёР±РєР°");
+                    bot.SendTextMessageAsync(message.Chat.Id, "Непредвиденная ошибка");
                     logger.Error(e);
                 }
             else
-                bot.SendTextMessageAsync(message.Chat.Id, "РќРµРёР·РІРµСЃС‚РЅР°СЏ РєРѕРјР°РЅРґР°");
+                bot.SendTextMessageAsync(message.Chat.Id, "Неизвестная команда");
         }
     }
 }

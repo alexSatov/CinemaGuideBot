@@ -1,4 +1,4 @@
-﻿namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public interface ICommand<out T>
     {

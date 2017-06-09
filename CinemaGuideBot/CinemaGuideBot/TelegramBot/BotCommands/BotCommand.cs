@@ -1,6 +1,6 @@
 ﻿using NLog;
 
-namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public abstract class BaseCommand<T>: ICommand<T>
     {

@@ -1,15 +1,15 @@
-п»їusing System.Linq;
-using CinemaGuideBot.Domain.MoviesInfoGetters;
-using CinemaGuideBot.Domain.MovieInfoFormatters;
+using System.Linq;
+using CinemaGuideBot.Cinema.MoviesInfoGetters;
+using CinemaGuideBot.Cinema.MovieInfoFormatters;
 
-namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public class WeekTopCommand: BaseCommand<string>
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
         private readonly IMovieInfoFormatter movieInfoFormatter;
         public WeekTopCommand(IMoviesInfoGetter infoGetter, IMovieInfoFormatter movieInfoFormatter) 
-            : base("/weektop", "5 СЃР°РјС‹С… РїРѕРїСѓР»СЏСЂРЅС‹С… С„РёР»СЊРјРѕРІ РЅРµРґРµР»Рё")
+            : base("/weektop", "5 самых популярных фильмов недели")
         {
             this.movieInfoFormatter = movieInfoFormatter;
             moviesInfoGetter = infoGetter;

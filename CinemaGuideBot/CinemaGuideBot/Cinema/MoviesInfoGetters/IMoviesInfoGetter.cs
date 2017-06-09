@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CinemaGuideBot.Domain.MoviesInfoGetters
+namespace CinemaGuideBot.Cinema.MoviesInfoGetters
 {
     public interface IMoviesInfoGetter
     {

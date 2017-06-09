@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CinemaGuideBot.Domain
+namespace CinemaGuideBot.Cinema
 {
     public class MovieInfo
     {

@@ -92,25 +92,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bot.cs" />
-    <Compile Include="BotCommands\BotCommand.cs" />
-    <Compile Include="BotCommands\CommandExecutor.cs" />
-    <Compile Include="BotCommands\HelpCommand.cs" />
-    <Compile Include="BotCommands\ICommandExecutor.cs" />
-    <Compile Include="BotCommands\MovieSearchCommand.cs" />
-    <Compile Include="BotCommands\WeekPremieresCommand.cs" />
-    <Compile Include="BotCommands\StartCommand.cs" />
-    <Compile Include="BotCommands\UserExtension.cs" />
-    <Compile Include="BotCommands\WeekTopCommand.cs" />
-    <Compile Include="Domain\MovieInfoFormatters\IMovieInfoFormatter.cs" />
-    <Compile Include="Domain\MoviesInfoGetters\IMoviesInfoGetter.cs" />
-    <Compile Include="Domain\MoviesInfoGetters\KinopoiskWebPage.cs" />
-    <Compile Include="Domain\MoviesInfoGetters\KinopoiskApi.cs" />
-    <Compile Include="Domain\MovieInfo.cs" />
-    <Compile Include="BotCommands\ICommand.cs" />
-    <Compile Include="Domain\MoviesInfoGetters\TMDb.cs" />
-    <Compile Include="Domain\MovieInfoFormatters\SimpleMovieInfoFormatter.cs" />
-    <Compile Include="Infrastructure\WebPageParser.cs" />
+    <Compile Include="TelegramBot\Bot.cs" />
+    <Compile Include="TelegramBot\BotCommands\BotCommand.cs" />
+    <Compile Include="TelegramBot\BotCommands\CommandExecutor.cs" />
+    <Compile Include="TelegramBot\BotCommands\HelpCommand.cs" />
+    <Compile Include="TelegramBot\BotCommands\ICommandExecutor.cs" />
+    <Compile Include="TelegramBot\BotCommands\MovieSearchCommand.cs" />
+    <Compile Include="TelegramBot\BotCommands\WeekPremieresCommand.cs" />
+    <Compile Include="TelegramBot\BotCommands\StartCommand.cs" />
+    <Compile Include="TelegramBot\BotCommands\UserExtension.cs" />
+    <Compile Include="TelegramBot\BotCommands\WeekTopCommand.cs" />
+    <Compile Include="Cinema\MovieInfoFormatters\IMovieInfoFormatter.cs" />
+    <Compile Include="Cinema\MoviesInfoGetters\IMoviesInfoGetter.cs" />
+    <Compile Include="Cinema\MoviesInfoGetters\KinopoiskWebPage.cs" />
+    <Compile Include="Cinema\MoviesInfoGetters\KinopoiskApi.cs" />
+    <Compile Include="Cinema\MovieInfo.cs" />
+    <Compile Include="TelegramBot\BotCommands\ICommand.cs" />
+    <Compile Include="Cinema\MoviesInfoGetters\TMDb.cs" />
+    <Compile Include="Cinema\MovieInfoFormatters\SimpleMovieInfoFormatter.cs" />
+    <Compile Include="Web\WebPageParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\MovieInfoShould.cs" />

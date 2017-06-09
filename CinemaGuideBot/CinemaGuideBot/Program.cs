@@ -1,9 +1,10 @@
 ﻿using Ninject;
-using CinemaGuideBot.BotCommands;
-using Ninject.Extensions.Conventions;
 using Topshelf;
-using CinemaGuideBot.Domain.MoviesInfoGetters;
-using CinemaGuideBot.Domain.MovieInfoFormatters;
+using CinemaGuideBot.TelegramBot;
+using Ninject.Extensions.Conventions;
+using CinemaGuideBot.TelegramBot.BotCommands;
+using CinemaGuideBot.Cinema.MoviesInfoGetters;
+using CinemaGuideBot.Cinema.MovieInfoFormatters;
 
 namespace CinemaGuideBot
 {

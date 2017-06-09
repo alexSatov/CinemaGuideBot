@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace CinemaGuideBot.Domain.MovieInfoFormatters
+namespace CinemaGuideBot.Cinema.MovieInfoFormatters
 {
     public class SimpleMovieInfoFormatter : IMovieInfoFormatter
     {

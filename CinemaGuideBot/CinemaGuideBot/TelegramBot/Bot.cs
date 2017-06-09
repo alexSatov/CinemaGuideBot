@@ -1,10 +1,10 @@
-﻿using CinemaGuideBot.BotCommands;
-using NLog;
+﻿using NLog;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.Enums;
+using CinemaGuideBot.TelegramBot.BotCommands;
 
-namespace CinemaGuideBot
+namespace CinemaGuideBot.TelegramBot
 {
     public class Bot : TelegramBotClient
     {

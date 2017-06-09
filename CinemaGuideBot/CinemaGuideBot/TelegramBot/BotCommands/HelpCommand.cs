@@ -1,13 +1,13 @@
-п»їusing System;
+using System;
 using System.Linq;
 
-namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public class HelpCommand: BaseCommand<string>
     {
         private readonly Lazy<ICommandExecutor<string>> commandExecutor;
 
-        public HelpCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/help", "РїРѕРєР°Р·С‹РІР°РµС‚ СЌС‚Рѕ СЃРѕРѕР±С‰РµРЅРёРµ")
+        public HelpCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/help", "показывает это сообщение")
         {
             this.commandExecutor = commandExecutor;
         }
@@ -21,7 +21,7 @@ namespace CinemaGuideBot.BotCommands
         public static string GenerateHelp(ICommand<string>[] commands)
         {
             var botCommands = commands.Select(command => $"{command.Name} - {command.HelpText}");
-            return $"РЇ РїРѕРґРґРµСЂР¶РёРІР°СЋ СЃР»РµРґСѓСЋС‰РёРµ РєРѕРјР°РЅРґС‹:\r\n{string.Join("\r\n", botCommands)}";
+            return $"Я поддерживаю следующие команды:\r\n{string.Join("\r\n", botCommands)}";
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using CinemaGuideBot.Infrastructure;
 using System.Text.RegularExpressions;
 
-namespace CinemaGuideBot.Domain.MoviesInfoGetters
+namespace CinemaGuideBot.Cinema.MoviesInfoGetters
 {
     public class KinopoiskApi : IMoviesInfoGetter
     {

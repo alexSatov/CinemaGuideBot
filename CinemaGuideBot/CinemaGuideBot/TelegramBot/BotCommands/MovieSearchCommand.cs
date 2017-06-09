@@ -1,15 +1,15 @@
-п»їusing System;
-using CinemaGuideBot.Domain.MoviesInfoGetters;
-using CinemaGuideBot.Domain.MovieInfoFormatters;
+using System;
+using CinemaGuideBot.Cinema.MoviesInfoGetters;
+using CinemaGuideBot.Cinema.MovieInfoFormatters;
 
-namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public class MovieSearchCommand : BaseCommand<string>
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
         private readonly IMovieInfoFormatter movieInfoFormatter;
         public MovieSearchCommand(IMoviesInfoGetter infoGetter, IMovieInfoFormatter movieInfoFormatter) 
-            : base("/info", "РїРѕРёСЃРє РёРЅС„РѕСЂРјР°С†РёРё Рѕ С„РёР»СЊРјРµ РїРѕ РЅР°Р·РІР°РЅРёСЋ")
+            : base("/info", "поиск информации о фильме по названию")
         {
             this.movieInfoFormatter = movieInfoFormatter;
             moviesInfoGetter = infoGetter;
@@ -18,14 +18,14 @@ namespace CinemaGuideBot.BotCommands
         public override string Execute(string searchTitle)
         {
             if (searchTitle == string.Empty)
-                return "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С„РёР»СЊРјР°";
+                return "Введите название фильма";
             try
             {
                 var movieInfo = moviesInfoGetter.GetMovieInfo(searchTitle);
                 var formattedInfo = movieInfoFormatter.Format(movieInfo);
 
                 if (string.IsNullOrEmpty(formattedInfo))
-                    throw new ArgumentException("Р¤РёР»СЊРј РЅРµ РЅР°Р№РґРµРЅ");
+                    throw new ArgumentException("Фильм не найден");
 
                 Logger.Debug($"successfully found <{searchTitle}>");
                 return formattedInfo;
@@ -33,7 +33,7 @@ namespace CinemaGuideBot.BotCommands
             catch (ArgumentException e)
             {
                 Logger.Debug($"not found <{searchTitle}>");
-                return $"Р’С‹ РїС‹С‚Р°Р»РёСЃСЊ РЅР°Р№С‚Рё \"{searchTitle}\"\r\n{e.Message}";
+                return $"Вы пытались найти \"{searchTitle}\"\r\n{e.Message}";
             }
         }
     }

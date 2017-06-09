@@ -1,12 +1,12 @@
-п»їusing System;
+using System;
 
-namespace CinemaGuideBot.BotCommands
+namespace CinemaGuideBot.TelegramBot.BotCommands
 {
     public class StartCommand: BaseCommand<string>
     {
         private readonly Lazy<ICommandExecutor<string>> commandExecutor;
 
-        public StartCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/start", "РїСЂРёРІРµС‚СЃС‚РІРёРµ Рё help")
+        public StartCommand(Lazy<ICommandExecutor<string>> commandExecutor) : base("/start", "приветствие и help")
         {
             this.commandExecutor = commandExecutor;
         }
@@ -16,7 +16,7 @@ namespace CinemaGuideBot.BotCommands
             var aviableCommands = commandExecutor.Value.GetAviableCommands();
             var helpText = HelpCommand.GenerateHelp(aviableCommands);
             Logger.Debug("displayed start message");
-            return $"РџСЂРёРІРµС‚СЃС‚РІСѓСЋ! РЇ С‚РІРѕР№ РіРёРґ РІ РјРёСЂРµ РєРёРЅРѕ. Р”Р°РІР°Р№ Р¶Рµ РЅР°С‡РЅРµРј.\r\n{helpText}";
+            return $"Приветствую! Я твой гид в мире кино. Давай же начнем.\r\n{helpText}";
         }
     }
 }
