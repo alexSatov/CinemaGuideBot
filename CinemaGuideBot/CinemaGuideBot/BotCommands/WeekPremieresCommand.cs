@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using CinemaGuideBot.Domain;
-using CinemaGuideBot.Domain.MoviesInfoGetter;
+using CinemaGuideBot.Domain.MoviesInfoGetters;
+using CinemaGuideBot.Domain.MovieInfoFormatters;
 
 namespace CinemaGuideBot.BotCommands
 {

@@ -6,7 +6,7 @@ using TMDbLib.Objects.Movies;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace CinemaGuideBot.Domain.MoviesInfoGetter
+namespace CinemaGuideBot.Domain.MoviesInfoGetters
 {
     public class TMDb : IMoviesInfoGetter
     {

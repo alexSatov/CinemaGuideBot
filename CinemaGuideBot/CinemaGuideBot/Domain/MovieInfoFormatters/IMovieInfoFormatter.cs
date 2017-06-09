@@ -1,4 +1,4 @@
-﻿namespace CinemaGuideBot.Domain
+﻿namespace CinemaGuideBot.Domain.MovieInfoFormatters
 {
     public interface IMovieInfoFormatter
     {

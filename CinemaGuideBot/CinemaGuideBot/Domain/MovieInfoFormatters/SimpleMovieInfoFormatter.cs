@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace CinemaGuideBot.Domain
+namespace CinemaGuideBot.Domain.MovieInfoFormatters
 {
     public class SimpleMovieInfoFormatter : IMovieInfoFormatter
     {
@@ -18,7 +18,7 @@ namespace CinemaGuideBot.Domain
                     : $"Название: {movieInfo.Title} ({movieInfo.OriginalTitle})";
 
             var rating = string.Join(", ", movieInfo.Rating
-                .Where(r => !string.IsNullOrEmpty(r.Value))
+                .Where(r => !string.IsNullOrEmpty(r.Value) && !r.Value.StartsWith("0"))
                 .Select(r => $"{r.Key}: {r.Value}"));
 
             return string.Join("\r\n",
