@@ -38,7 +38,7 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
             return searchResultPage;
         }
 
-        public static List<int> GetMoviesId(string pageElement)
+        public static List<int> GetMoviesIds(string pageElement)
         {
             return WebPageParser
                 .UniteParsedMultibleValues(pageElement, movieIdExpr)

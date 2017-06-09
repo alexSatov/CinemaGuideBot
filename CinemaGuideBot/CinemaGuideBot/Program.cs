@@ -34,8 +34,8 @@ namespace CinemaGuideBot
         {
             var container = new StandardKernel();
 
-            container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>();
-            container.Bind<IMovieInfoParser>().To<MovieInfoJsonParser<ApiSearchResult>>();
+            container.Bind<IMoviesInfoGetter>().To<KinopoiskApi>().InSingletonScope();
+            container.Bind<IMovieInfoParser>().To<MovieInfoJsonParser<ApiSearchResult>>().InSingletonScope();
 
             container.Bind(x => x.FromThisAssembly().SelectAllClasses().InheritedFrom<IPhraseDict>().BindSingleInterface());
             container.Bind<BotReply>().To<BotReply>().InSingletonScope();

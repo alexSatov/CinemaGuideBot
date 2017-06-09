@@ -15,11 +15,11 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
 
         private const string token = "037313259a17be837be3bd04a51bf678";
         private const int millisecondsDelay = 2000;
-        private static IMovieInfoParser movieInfoParser;
+        private readonly IMovieInfoParser movieInfoParser;
 
         public KinopoiskApi(IMovieInfoParser movieInfoParser)
         {
-            KinopoiskApi.movieInfoParser = movieInfoParser;
+            this.movieInfoParser = movieInfoParser;
         }
 
         public MovieInfo GetMovieInfo(string searchTitle)
@@ -32,14 +32,14 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
             return GetMovieInfoAsync(movieId).Result;
         }
 
-        private static async Task<MovieInfo> GetMovieInfoAsync(string searchTitle)
+        public async Task<MovieInfo> GetMovieInfoAsync(string searchTitle)
         {
             var movieSearchPage = await KinopoiskWebPage.GetMovieSearchPageAsync(searchTitle);
-            var movieId = KinopoiskWebPage.GetMoviesId(movieSearchPage)[0];
+            var movieId = KinopoiskWebPage.GetMoviesIds(movieSearchPage)[0];
             return await GetMovieInfoAsync(movieId);
         }
 
-        private static async Task<MovieInfo> GetMovieInfoAsync(int movieId)
+        public async Task<MovieInfo> GetMovieInfoAsync(int movieId)
         {
             using (var cancellationTokenSource = new CancellationTokenSource())
             {
@@ -57,18 +57,18 @@ namespace CinemaGuideBot.Cinema.MoviesInfoGetters
 
         public List<MovieInfo> GetWeekTopMovies()
         {
-            var cashBlockElement = KinopoiskWebPage.GetCashBlock();
-            var moviesId = KinopoiskWebPage.GetMoviesId(cashBlockElement);
-            var tasks = moviesId.Select(GetMovieInfoAsync).ToArray();
+            var cashBlock = KinopoiskWebPage.GetCashBlock();
+            var moviesIds = KinopoiskWebPage.GetMoviesIds(cashBlock);
+            var tasks = moviesIds.Select(GetMovieInfoAsync).ToArray();
             Task.WaitAll(tasks);
             return tasks.Select(t => t.Result).ToList();
         }
 
         public List<MovieInfo> GetWeekNewMovies()
         {
-            var weekPremieresElement = KinopoiskWebPage.GetWeekPremieresBlock();
-            var moviesId = KinopoiskWebPage.GetMoviesId(weekPremieresElement);
-            var tasks = moviesId.Select(GetMovieInfoAsync).ToArray();
+            var weekPremieresBlock = KinopoiskWebPage.GetWeekPremieresBlock();
+            var moviesIds = KinopoiskWebPage.GetMoviesIds(weekPremieresBlock);
+            var tasks = moviesIds.Select(GetMovieInfoAsync).ToArray();
             Task.WaitAll(tasks);
             return tasks.Select(t => t.Result).ToList();
         }

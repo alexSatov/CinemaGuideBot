@@ -100,6 +100,8 @@
     <Compile Include="TelegramBot\BotReply.cs" />
     <Compile Include="TelegramBot\Localisation\IPhraseDict.cs" />
     <Compile Include="TelegramBot\Localisation\RUPhraseDict.cs" />
+    <Compile Include="Tests\KinopoiskApi_Should.cs" />
+    <Compile Include="Tests\KinopoiskWebPage_Should.cs" />
     <Compile Include="Web\WebPageParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
