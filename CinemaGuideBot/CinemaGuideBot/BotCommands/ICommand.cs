@@ -1,8 +1,8 @@
 ﻿namespace CinemaGuideBot.BotCommands
 {
-    public interface ICommand<TResult>
+    public interface ICommand
     {
-        TResult Execute(ICommandExecutor<TResult> invoker, string request);
+        string Execute(string request);
         string HelpText { get; }
         string Name { get; }
     }
