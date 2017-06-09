@@ -10,6 +10,7 @@ namespace CinemaGuideBot.BotCommands
     {
         private readonly Logger logger;
         private readonly Dictionary<string, ICommand> commands;
+
         public CommandExecutor(ICommand[] commands)
         {
             logger = LogManager.GetLogger(GetType().Name);
@@ -46,7 +47,7 @@ namespace CinemaGuideBot.BotCommands
                 catch (Exception e)
                 {
                     bot.SendTextMessageAsync(message.Chat.Id, "Непредвиденная ошибка");
-                    logger.Debug($"----------EXCEPTION----------\r\n{e}\r\n----------EXCEPTION----------");
+                    logger.Error(e);
                 }
             else
                 bot.SendTextMessageAsync(message.Chat.Id, "Неизвестная команда");

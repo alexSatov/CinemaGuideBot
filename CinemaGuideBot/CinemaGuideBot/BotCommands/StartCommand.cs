@@ -5,6 +5,7 @@ namespace CinemaGuideBot.BotCommands
     public class StartCommand: BaseCommand
     {
         private readonly Lazy<ICommandExecutor> commandExecutor;
+
         public StartCommand(Lazy<ICommandExecutor> commandExecutor) : base("/start", "приветствие и help")
         {
             this.commandExecutor = commandExecutor;

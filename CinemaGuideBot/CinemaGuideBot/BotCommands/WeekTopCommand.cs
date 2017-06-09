@@ -5,6 +5,7 @@ namespace CinemaGuideBot.BotCommands
     public class WeekTopCommand: BaseCommand
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
+
         public WeekTopCommand(IMoviesInfoGetter infoGetter) : base("/weektop", "5 самых популярных фильмов недели")
         {
             moviesInfoGetter = infoGetter;

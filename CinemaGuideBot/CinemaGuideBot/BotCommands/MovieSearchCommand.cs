@@ -6,6 +6,7 @@ namespace CinemaGuideBot.BotCommands
     public class MovieSearchCommand : BaseCommand
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
+
         public MovieSearchCommand(IMoviesInfoGetter infoGetter) : base("/info", "поиск информации о фильме по названию")
         {
             moviesInfoGetter = infoGetter;
@@ -28,7 +29,6 @@ namespace CinemaGuideBot.BotCommands
             catch (ArgumentException e)
             {
                 Logger.Debug($"not found <{searchTitle}>");
-                Logger.Debug($"----------EXCEPTION----------\r\n{e}\r\n----------EXCEPTION----------");
                 return $"Вы пытались найти \"{searchTitle}\"\r\n{e.Message}";
             }
         }
