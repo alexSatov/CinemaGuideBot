@@ -2,6 +2,7 @@
 {
     class RuPhraseDict : IPhraseDict
     {
+        public string Language => "RU";
         public string Greeting => "Приветствую! Я твой гид в мире кино. Давай же начнем.";
 
         public string StartCommandDescription => "приветствие и help";

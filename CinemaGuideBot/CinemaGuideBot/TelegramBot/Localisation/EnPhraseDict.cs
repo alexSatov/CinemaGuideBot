@@ -2,6 +2,7 @@
 {
     public class EnPhraseDict : IPhraseDict
     {
+        public string Language => "EN";
         public string Greeting => "Hi! I'am your guide in the cinema world. Let's go.";
 
         public string StartCommandDescription => "greeting and help";

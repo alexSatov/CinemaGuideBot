@@ -1,4 +1,5 @@
 ﻿using NLog;
+using CinemaGuideBot.TelegramBot.Localisation;
 
 namespace CinemaGuideBot.TelegramBot.BotCommands
 {
@@ -6,8 +7,10 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
     {
         public string Name { get; }
 
-        public string HelpText
-            => typeof(BotReply).GetProperty($"{GetType().Name}Description")?.GetValue(Bot.BotReply)?.ToString();
+        public string HelpText => typeof(IPhraseDict)
+            .GetProperty($"{GetType().Name}Description")?
+            .GetValue(Bot.BotReply.CurrentPhraseDict)?
+            .ToString();
 
         protected readonly Logger Logger;
         

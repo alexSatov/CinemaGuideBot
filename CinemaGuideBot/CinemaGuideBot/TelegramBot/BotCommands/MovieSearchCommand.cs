@@ -15,7 +15,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
         public override string Execute(string searchTitle)
         {
             if (searchTitle == string.Empty)
-                return Bot.BotReply.EnterMovieTitle;
+                return Bot.BotReply.CurrentPhraseDict.EnterMovieTitle;
             try
             {
                 var movieInfo = moviesInfoGetter.GetMovieInfo(searchTitle);
@@ -30,7 +30,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
             catch (ArgumentException e)
             {
                 Logger.Warn($"not found <{searchTitle}> ({e.Message})");
-                return Bot.BotReply.MovieNotFound;
+                return Bot.BotReply.CurrentPhraseDict.MovieNotFound;
             }
         }
     }

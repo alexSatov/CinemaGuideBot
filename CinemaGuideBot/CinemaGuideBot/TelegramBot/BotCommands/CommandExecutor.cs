@@ -12,6 +12,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
         private readonly Logger logger;
         private readonly Dictionary<string, ICommand<string>> commands;
         private static readonly Regex textCommandParser = new Regex(@"(?<commandName>/\w+)\s?(?<request>.*)", RegexOptions.Compiled);
+
         public CommandExecutor(ICommand<string>[] commands)
         {
             logger = LogManager.GetLogger(GetType().Name);

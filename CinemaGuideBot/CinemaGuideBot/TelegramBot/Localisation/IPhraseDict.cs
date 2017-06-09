@@ -2,6 +2,7 @@
 {
     public interface IPhraseDict
     {
+        string Language { get; }
         string Greeting { get; }
 
         string StartCommandDescription { get; }

@@ -55,13 +55,13 @@ namespace CinemaGuideBot.TelegramBot
             }
             catch (ArgumentOutOfRangeException e)
             {
-                logger.Debug(e);
-                reply = BotReply.UnknownCommand;
+                logger.Debug(e.Message);
+                reply = BotReply.CurrentPhraseDict.UnknownCommand;
             }
             catch (Exception e)
             {
                 logger.Error(e);
-                reply = BotReply.UnexpectedError;
+                reply = BotReply.CurrentPhraseDict.UnexpectedError;
             }
 
             SendTextMessageAsync(message.Chat.Id, reply);

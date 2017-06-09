@@ -21,7 +21,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
         public static string GenerateHelp(ICommand<string>[] commands)
         {
             var botCommands = commands.Select(command => $"{command.Name} - {command.HelpText}");
-            return $"{Bot.BotReply.HelpText}\r\n{string.Join("\r\n", botCommands)}";
+            return $"{Bot.BotReply.CurrentPhraseDict.HelpText}\r\n{string.Join("\r\n", botCommands)}";
         }
     }
 }

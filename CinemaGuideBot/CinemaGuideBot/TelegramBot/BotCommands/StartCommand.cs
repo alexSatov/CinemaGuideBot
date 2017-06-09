@@ -16,7 +16,7 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
             var aviableCommands = commandExecutor.Value.GetAviableCommands();
             var helpText = HelpCommand.GenerateHelp(aviableCommands);
             Logger.Debug("displayed start message");
-            return $"{Bot.BotReply.Greeting}\r\n{helpText}";
+            return $"{Bot.BotReply.CurrentPhraseDict.Greeting}\r\n{helpText}";
         }
     }
 }

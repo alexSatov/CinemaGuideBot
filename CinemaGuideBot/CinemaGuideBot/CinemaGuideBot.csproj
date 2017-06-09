@@ -101,7 +101,6 @@
     <Compile Include="TelegramBot\BotCommands\MovieSearchCommand.cs" />
     <Compile Include="TelegramBot\BotCommands\WeekPremieresCommand.cs" />
     <Compile Include="TelegramBot\BotCommands\StartCommand.cs" />
-    <Compile Include="TelegramBot\BotCommands\UserExtension.cs" />
     <Compile Include="TelegramBot\BotCommands\WeekTopCommand.cs" />
     <Compile Include="Cinema\MoviesInfoGetters\IMoviesInfoGetter.cs" />
     <Compile Include="Cinema\MoviesInfoGetters\KinopoiskWebPage.cs" />

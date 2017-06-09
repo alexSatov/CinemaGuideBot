@@ -11,16 +11,16 @@ namespace CinemaGuideBot.TelegramBot.BotCommands
         public override string Execute(string language)
         {
             if (language == string.Empty)
-                return Bot.BotReply.EnterLanguage;
+                return Bot.BotReply.CurrentPhraseDict.EnterLanguage;
             try
             {
                 Bot.BotReply.SetLanguage(language);
-                return Bot.BotReply.LanguageChanged;
+                return Bot.BotReply.CurrentPhraseDict.LanguageChanged;
             }
             catch (ArgumentException e)
             {
                 Logger.Warn($"{e.Message}");
-                return $"{Bot.BotReply.UnsupportedLanguage} {string.Join(", ", BotReply.SupportedLanguages)}";
+                return $"{Bot.BotReply.CurrentPhraseDict.UnsupportedLanguage} {string.Join(", ", BotReply.SupportedLanguages)}";
             }
         }
     }
