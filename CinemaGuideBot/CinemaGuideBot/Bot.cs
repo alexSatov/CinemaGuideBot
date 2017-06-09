@@ -1,7 +1,6 @@
 ﻿using NLog;
 using Telegram.Bot;
 using Telegram.Bot.Args;
-using System.Diagnostics;
 using Telegram.Bot.Types.Enums;
 using CinemaGuideBot.BotCommands;
 
@@ -10,18 +9,20 @@ namespace CinemaGuideBot
     public class Bot : TelegramBotClient
     {
         public readonly ICommandExecutor CommandExecutor;
-        public readonly string UserName;
-
-        private readonly Logger logger;
+        public readonly string Name;
+        private static readonly Logger logger = LogManager.GetLogger(nameof(Bot));
 
         public Bot(string token, ICommandExecutor executor) : base(token)
         {
             CommandExecutor = executor;
             RegisterHandlers();
+            Name = GetBotName();
+        }
+
+        private string GetBotName()
+        {
             var botInfo = GetMeAsync().Result;
-            UserName = botInfo.Username;
-            logger = LogManager.GetLogger($"{GetType().Name} {UserName}");
-            logger.Debug("bot successfully initialized");
+            return botInfo.Username;
         }
 
         private void RegisterHandlers()
@@ -45,7 +46,7 @@ namespace CinemaGuideBot
         private void ErrorHandler(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
         {
             logger.Fatal(receiveErrorEventArgs.ToString());
-            Debugger.Break();
+            StopWorking();
         }
 
         private void OnMessageReceived(object sender, MessageEventArgs messageEventArgs)

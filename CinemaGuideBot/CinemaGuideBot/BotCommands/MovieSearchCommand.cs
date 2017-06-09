@@ -1,4 +1,5 @@
 ﻿using System;
+using CinemaGuideBot.Domain;
 using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
@@ -6,9 +7,11 @@ namespace CinemaGuideBot.BotCommands
     public class MovieSearchCommand : BaseCommand
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
-
-        public MovieSearchCommand(IMoviesInfoGetter infoGetter) : base("/info", "поиск информации о фильме по названию")
+        private readonly IMovieInfoFormatter movieInfoFormatter;
+        public MovieSearchCommand(IMoviesInfoGetter infoGetter, IMovieInfoFormatter movieInfoFormatter) 
+            : base("/info", "поиск информации о фильме по названию")
         {
+            this.movieInfoFormatter = movieInfoFormatter;
             moviesInfoGetter = infoGetter;
         }
 
@@ -18,13 +21,13 @@ namespace CinemaGuideBot.BotCommands
                 return "Введите название фильма";
             try
             {
-                var result = moviesInfoGetter.GetMovieInfo(searchTitle).ToString();
-
-                if (string.IsNullOrEmpty(result))
+                var movieInfo = moviesInfoGetter.GetMovieInfo(searchTitle);
+                var formattedInfo = movieInfoFormatter.Format(movieInfo);
+                if (string.IsNullOrEmpty(formattedInfo))
                     throw new ArgumentException("Фильм не найден");
 
                 Logger.Debug($"successfully found <{searchTitle}>");
-                return result;
+                return formattedInfo;
             }
             catch (ArgumentException e)
             {

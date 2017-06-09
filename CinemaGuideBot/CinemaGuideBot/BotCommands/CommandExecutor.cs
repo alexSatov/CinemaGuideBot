@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using Telegram.Bot.Types;
 using System.Collections.Generic;
+using CinemaGuideBot.Domain;
 
 namespace CinemaGuideBot.BotCommands
 {

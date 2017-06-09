@@ -1,19 +1,23 @@
-﻿using CinemaGuideBot.Domain.MoviesInfoGetter;
+﻿using System.Linq;
+using CinemaGuideBot.Domain;
+using CinemaGuideBot.Domain.MoviesInfoGetter;
 
 namespace CinemaGuideBot.BotCommands
 {
     public class WeekPremieresCommand : BaseCommand
     {
         private readonly IMoviesInfoGetter moviesInfoGetter;
-
-        public WeekPremieresCommand(IMoviesInfoGetter infoGetter) : base("/weeknew", "премьеры недели")
+        private readonly IMovieInfoFormatter movieInfoFormatter;
+        public WeekPremieresCommand(IMoviesInfoGetter infoGetter, IMovieInfoFormatter movieInfoFormatter) 
+            : base("/weeknew", "премьеры недели")
         {
+            this.movieInfoFormatter = movieInfoFormatter;
             moviesInfoGetter = infoGetter;
         }
 
         public override string Execute(string request)
         {
-            var newMovies = moviesInfoGetter.GetWeekNewMovies();
+            var newMovies = moviesInfoGetter.GetWeekNewMovies().Select(movieInfoFormatter.Format);
             Logger.Debug("displayed week top");
             return string.Join("\r\n", newMovies);
         }
