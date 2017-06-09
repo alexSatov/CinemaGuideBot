@@ -11,7 +11,6 @@ namespace CinemaGuideBot.TelegramBot
         public const string DefaultLanguage = "RU";
         public IPhraseDict CurrentPhraseDict { get; private set; }
         public HashSet<string> SupportedLanguages { get; }
-
         private readonly Dictionary<string, IPhraseDict> phraseDicts;
         
         public BotReply(IEnumerable<IPhraseDict> phraseDicts)
